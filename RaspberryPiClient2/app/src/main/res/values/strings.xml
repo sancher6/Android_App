@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Raspberry Pi Client</string>
+    <string name="proj_title">Autonomous Car with Android-Based Control</string>
+    <string name="port">Port</string>
+    <string name="ip">Raspberry Pi IP</string>
+    <string name="connect">Connect</string>
+    <string name="TCNJ">TCNJ School of Engineering</string>
+
+    <string name="remote_control">Remote Control</string>
+    <string name="set_instructions">Set Instructions</string>
+    <string name="previous_runs">Previous Runs</string>
+    <string name="disconnect">DISCONNECT</string>
+    <string name="more">MORE!!</string>
+
+    <string name="start">START</string>
+    <string name="stop">STOP</string>
+    <string name="forward">F</string>
+    <string name="left">L</string>
+    <string name="right">R</string>
+    <string name="back">B</string>
+
+</resources>
