@@ -19,14 +19,14 @@ public class RemoteActivity extends AppCompatActivity {
         b = findViewById(R.id.b);
         start_stop = findViewById(R.id.start_stop);
 
-        MainActivity data = new MainActivity();
+        final MainActivity data = new MainActivity();
 
         f.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
                     //send forward instruction
-
+                    data.createActivity();
                 }
                 return false;
             }

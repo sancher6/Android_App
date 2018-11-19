@@ -36,12 +36,15 @@ public class MainActivity extends AppCompatActivity {
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-    public void setIP_port(MainActivity obj) {
-        ip = this.ip;
-        port = this.port;
+    public void createActivity() {
+        this.ip = ip;
+        this.port = port;
     }
-    public void getIP_port(){
-        return;
+    public EditText get_port(){
+        return port;
+    }
+    public EditText get_IP(){
+        return ip;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
