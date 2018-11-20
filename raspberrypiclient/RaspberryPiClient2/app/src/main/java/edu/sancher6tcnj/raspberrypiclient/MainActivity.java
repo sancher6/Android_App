@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                                 throw new UnknownHostException(port + "is not a valid port number");
                             Client client = new Client(ipaddress, portnum);
                             client.start();
+                            startActivity(new Intent(MainActivity.this,SecondaryActivity.class));
                         } catch (UnknownHostException e){
                             showErrorsMessages("Please enter a Valid IP!!");
                         } catch (NumberFormatException e){
@@ -85,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
                         connect.setText("Connect");
                         closeConnection();
                     }
-
-                    startActivity(new Intent(MainActivity.this,SecondaryActivity.class));
                 }
             });
         }
@@ -141,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         return matcher.matches();
     }
     // Creates a Client Thread Class
-    private class Client extends Thread {
+    protected class Client extends Thread {
         private String ipaddress;
         private int portnum;
 
@@ -154,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             super.run();
             connectToServer(ipaddress, portnum);
-
         }
 
         public void connectToServer(String ip, int port) {

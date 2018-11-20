@@ -27,6 +27,7 @@ public class RemoteActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
                     //send forward instruction
                     data.createActivity();
+                    MainActivity.Client kappa = new MainActivity.Client;
                 }
                 return false;
             }
