@@ -8,6 +8,8 @@ import android.widget.Button;
 
 public class RemoteActivity extends AppCompatActivity {
     private Button f, l, r, b, start_stop;
+    private String ipaddress;
+    private int portnum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,15 +21,16 @@ public class RemoteActivity extends AppCompatActivity {
         b = findViewById(R.id.b);
         start_stop = findViewById(R.id.start_stop);
 
-        final MainActivity data = new MainActivity();
+        final MainActivity main = new MainActivity();
+        ipaddress = main.get_IP();
+        portnum = main.get_port();
+
 
         f.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
                     //send forward instruction
-                    data.createActivity();
-                    MainActivity.Client kappa = new MainActivity.Client;
                 }
                 return false;
             }

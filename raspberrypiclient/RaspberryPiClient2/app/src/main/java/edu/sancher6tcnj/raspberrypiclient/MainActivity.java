@@ -25,12 +25,12 @@ public class MainActivity extends AppCompatActivity {
     private Button connect;
     private String ipaddress;
     private ObjectInputStream in;
-    private ObjectOutputStream out;
-    private Socket socket;
     private int portnum;
     private Matcher matcher;
     private Pattern pattern;
-    private Handler handler;
+    static ObjectOutputStream out;
+    static Socket socket;
+    static Handler handler;
     private static final String IPADDRESS_PATTERN =
             "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
@@ -39,12 +39,6 @@ public class MainActivity extends AppCompatActivity {
     public void createActivity() {
         this.ip = ip;
         this.port = port;
-    }
-    public EditText get_port(){
-        return port;
-    }
-    public EditText get_IP(){
-        return ip;
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+    public int get_port(){
+        return portnum;
+    }
+    public String get_IP(){
+        return ipaddress;
     }
 
     public void doAction(int action){
@@ -140,11 +140,11 @@ public class MainActivity extends AppCompatActivity {
         return matcher.matches();
     }
     // Creates a Client Thread Class
-    protected class Client extends Thread {
+    static class Client extends Thread {
         private String ipaddress;
         private int portnum;
 
-        public Client(String ipaddress, int portnum) {
+        private Client(String ipaddress, int portnum) {
             this.ipaddress = ipaddress;
             this.portnum = portnum;
         }
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             connectToServer(ipaddress, portnum);
         }
 
-        public void connectToServer(String ip, int port) {
+        private void connectToServer(String ip, int port) {
 
             try {
                 socket = new Socket(InetAddress.getByName(ip), port);
