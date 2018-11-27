@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -21,8 +22,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
+    MainActivity main;
     private EditText ip, port;
-    private Button connect;
+    protected Button connect;
     private String ipaddress;
     private ObjectInputStream in;
     private int portnum;
@@ -36,10 +38,7 @@ public class MainActivity extends AppCompatActivity {
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-    public void createActivity() {
-        this.ip = ip;
-        this.port = port;
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         int SDK_INT = Build.VERSION.SDK_INT;
@@ -52,9 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
             pattern = Pattern.compile(IPADDRESS_PATTERN);
             handler = new Handler();
-
+            main = new MainActivity();
             ip = findViewById(R.id.ip);
             port = findViewById(R.id.port);
+
             connect = findViewById(R.id.connect);
 
             connect.setOnClickListener(new View.OnClickListener(){
@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+    public MainActivity get_Main(){
+        return main;
     }
     public int get_port(){
         return portnum;
@@ -140,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         return matcher.matches();
     }
     // Creates a Client Thread Class
-    static class Client extends Thread {
+    class Client extends Thread {
         private String ipaddress;
         private int portnum;
 

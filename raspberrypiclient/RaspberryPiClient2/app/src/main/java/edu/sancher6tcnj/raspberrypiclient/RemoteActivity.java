@@ -21,16 +21,17 @@ public class RemoteActivity extends AppCompatActivity {
         b = findViewById(R.id.b);
         start_stop = findViewById(R.id.start_stop);
 
-        final MainActivity main = new MainActivity();
+        MainActivity main = MainActivity.get_Intent();
+
         ipaddress = main.get_IP();
         portnum = main.get_port();
-
 
         f.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
                     //send forward instruction
+                    MainActivity.Client client = new main.Client();
                 }
                 return false;
             }
