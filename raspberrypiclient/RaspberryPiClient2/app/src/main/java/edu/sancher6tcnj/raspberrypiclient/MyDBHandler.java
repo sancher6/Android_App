@@ -13,9 +13,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "runDB.db";
     public static final String TABLE_NAME = "Runs";
     public static final String COLUMN_ID = "runID";
-    public static final String COLUMN_NAME = "runName";
-    public static final String COLUMN_NAME = "ATTRIBUTES";
-    public static final String COLUMN_NAME = "ATTRIBUTES";
+    public static final String COLUMN_NAME = "Attributes";
 
     //initialize database
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
