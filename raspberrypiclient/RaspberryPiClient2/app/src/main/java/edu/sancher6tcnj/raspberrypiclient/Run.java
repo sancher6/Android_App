@@ -26,4 +26,12 @@ public class Run {
     public String getRunID() {
         return this.runID;
     }
+
+    public void setRunName(String runName){
+        this.runName = runName;
+    }
+
+    public String getRunName(){
+        return this.runName;
+    }
 }
