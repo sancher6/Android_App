@@ -14,6 +14,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "Runs";
     public static final String COLUMN_ID = "RunID";
     public static final String COLUMN_NAME = "Name";
+    public static final String COLUMN_TIME = "Time";
+    public static final String COLUMN_INSTR = "Instructions";
 
     //initialize database
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
@@ -23,7 +25,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db){
         String CREATE_TABLE = "CREATE TABLE" + TABLE_NAME + "(" + COLUMN_ID +
-                "STRING PRIMARYKEY," + COLUMN_NAME + "TEXT )";
+                "STRING PRIMARYKEY," + COLUMN_NAME + "TEXT )" + COLUMN_TIME + "TEXT )"+ COLUMN_INSTR + "TEXT )";
         db.execSQL(CREATE_TABLE);
     }
 
@@ -49,7 +51,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void addHandler (Run run){
         ContentValues values = new ContentValues();
         values.put(COLUMN_ID, run.getRunID());
-        values.put(COLUMN_NAME, run.);
+        values.put(COLUMN_NAME, run.getRunName());
+        values.put(COLUMN_TIME, run.getTime());
+        values.put(COLUMN_INSTR, run.getInstr());
     }
 
     public Run findHandler(Dictionary runID, String runName){}
