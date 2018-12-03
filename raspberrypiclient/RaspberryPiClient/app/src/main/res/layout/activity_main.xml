@@ -1,84 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentBottom="true"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
     android:layout_marginBottom="39dp"
+    android:background="@color/myColor"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:weightSum="1"
-    android:background="@color/myColor"
-    >
+    android:weightSum="1">
 
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/ip"
+        android:layout_width="322dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/port"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/port"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.03"
-        android:hint="@string/raspberry_pi_ip" />
+        android:hint="@string/ip" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberSigned"
-        android:ems="10"
         android:id="@+id/port"
+        android:layout_width="322dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ip"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.03"
-        android:hint="@string/port" />
+        android:ems="10"
+        android:hint="@string/h_port"
+        android:inputType="numberSigned" />
 
     <Button
+        android:id="@+id/connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/connect"
-        android:id="@+id/connect"
+        android:layout_below="@+id/port"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="12dp"
+        android:text="@string/connect" />
 
-    <Switch
-        android:id="@+id/led1"
-        android:layout_width="142dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_weight="0.18"
-        android:longClickable="false"
-        android:text="@string/go_right"
-        android:textColor="#000000"
-        android:textStyle="bold" />
+    <ImageButton
+        android:id="@+id/up"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/connect"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="81dp"
+        android:contentDescription="@string/up_des"
+        app:srcCompat="@drawable/up" />
 
-    <Switch
-        android:id="@+id/led2"
-        android:layout_width="142dp"
+    <ImageButton
+        android:id="@+id/right"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/up"
+        android:layout_toEndOf="@+id/connect"
+        android:layout_toRightOf="@+id/connect"
+        app:srcCompat="@drawable/right"
+        android:contentDescription="@string/go_right"/>
+
+    <ImageButton
+        android:id="@+id/left"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/up"
+        android:layout_toLeftOf="@+id/connect"
+        android:layout_toStartOf="@+id/connect"
+        app:srcCompat="@drawable/left"
+        android:contentDescription="@string/go_left"/>
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.18"
+        android:layout_below="@+id/right"
+        android:layout_marginTop="23dp"
+        android:layout_toEndOf="@+id/left"
+        android:layout_toRightOf="@+id/left"
         android:checked="false"
-        android:text="@string/go_left"
-        android:textColor="#000000"
-        android:textStyle="bold" />
-
-    <Switch
-        android:layout_width="291dp"
-        android:layout_height="wrap_content"
-        android:text="@string/start"
-        android:id="@+id/led3"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.18"
-        android:checked="false"
-        android:textColor="#000000"
-        android:textStyle="bold" />
+        android:text="@string/off" />
 
 
-</LinearLayout>
+</RelativeLayout>
 

@@ -40,50 +40,50 @@ public class MainActivity extends AppCompatActivity {
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        int SDK_INT = Build.VERSION.SDK_INT;
-        if (SDK_INT > 8){
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+        protected void onCreate(Bundle savedInstanceState) {
+            int SDK_INT = Build.VERSION.SDK_INT;
+            if (SDK_INT > 8){
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                        .permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_main);
 
-            pattern = Pattern.compile(IPADDRESS_PATTERN);
-            handler = new Handler();
-            main = new MainActivity();
-            ip = findViewById(R.id.ip);
-            port = findViewById(R.id.port);
+                pattern = Pattern.compile(IPADDRESS_PATTERN);
+                handler = new Handler();
+                main = new MainActivity();
+                ip = findViewById(R.id.ip);
+                port = findViewById(R.id.port);
 
-            connect = findViewById(R.id.connect);
+                connect = findViewById(R.id.connect);
 
-            connect.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    if (connect.getText().toString().equalsIgnoreCase("Connect")){
-                        try {
-                            ipaddress = ip.getText().toString();
-                            if (!checkIP(ipaddress))
-                                throw new UnknownHostException(port + "is not a valid IP Address");
-                            portnum = Integer.parseInt(port.getText().toString());
-                            if (portnum > 65535 && portnum < 0)
-                                throw new UnknownHostException(port + "is not a valid port number");
-                            Client client = new Client(ipaddress, portnum);
-                            client.start();
-                            startActivity(new Intent(MainActivity.this,SecondaryActivity.class));
-                        } catch (UnknownHostException e){
-                            showErrorsMessages("Please enter a Valid IP!!");
-                        } catch (NumberFormatException e){
-                            showErrorsMessages("Please enter a Valid port number!!");
+                connect.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        if (connect.getText().toString().equalsIgnoreCase("Connect")){
+                            try {
+                                ipaddress = ip.getText().toString();
+                                if (!checkIP(ipaddress))
+                                    throw new UnknownHostException(port + "is not a valid IP Address");
+                                portnum = Integer.parseInt(port.getText().toString());
+                                if (portnum > 65535 && portnum < 0)
+                                    throw new UnknownHostException(port + "is not a valid port number");
+                                Client client = new Client(ipaddress, portnum);
+                                client.start();
+                                startActivity(new Intent(MainActivity.this,SecondaryActivity.class));
+                            } catch (UnknownHostException e){
+                                showErrorsMessages("Please enter a Valid IP!!");
+                            } catch (NumberFormatException e){
+                                showErrorsMessages("Please enter a Valid port number!!");
+                            }
+                        } else{
+                            connect.setText("Connect");
+                            closeConnection();
                         }
-                    } else{
-                        connect.setText("Connect");
-                        closeConnection();
                     }
-                }
-            });
+                });
+            }
         }
-    }
     public MainActivity get_Main(){
         return main;
     }

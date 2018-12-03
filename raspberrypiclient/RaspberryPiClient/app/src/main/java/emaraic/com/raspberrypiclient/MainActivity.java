@@ -5,21 +5,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
-import android.widget.Toast;
+import android.widget.ImageButton;
+import android.widget.ToggleButton;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,12 +28,12 @@ import java.util.regex.Pattern;
  */
 
 public class MainActivity extends AppCompatActivity {
-    private Switch led1;
-    private Switch led2;
-    private Switch led3;
+    private ToggleButton state;
+    private ImageButton f;
+    private ImageButton r;
+    private ImageButton l;
     private EditText ip, port;
     private Button connect;
-    private ObjectInputStream in;
     private ObjectOutputStream out;
     private Socket socket;
     private String ipaddress;
@@ -54,25 +50,24 @@ public class MainActivity extends AppCompatActivity {
 @Override
     protected void onCreate(final Bundle savedInstanceState) {
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
+        if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
             //your codes here
-            super.onCreate(savedInstanceState);
+            super.onCreate(savedInstanceState);setContentView(R.layout.activity_main);
+
+
             pattern = Pattern.compile(IPADDRESS_PATTERN);
             handler = new Handler();
-            setContentView(R.layout.activity_main);
-
-            led1 = (Switch) findViewById(R.id.led1);
-            led2 = (Switch) findViewById(R.id.led2);
-            led3 = (Switch) findViewById(R.id.led3);
+            f = (ImageButton) findViewById(R.id.up);
+            r = (ImageButton) findViewById(R.id.right);
+            l = (ImageButton) findViewById(R.id.left);
             ip = (EditText) findViewById(R.id.ip);
             port = (EditText) findViewById(R.id.port);
             connect = (Button) findViewById(R.id.connect);
 
-            changeSwitchesSatte(false);
+            changeButtonState(false);
 
             connect.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,9 +75,17 @@ public class MainActivity extends AppCompatActivity {
                     if (connect.getText().toString().equalsIgnoreCase("Connect")) {
                         try {
                             ipaddress = ip.getText().toString();
+                            if (ipaddress.isEmpty()) {
+                                ipaddress = "192.168.4.1";
+                            }
                             if (!checkIP(ipaddress))
                                 throw new UnknownHostException(port + "is not a valid IP address");
-                            portnum = Integer.parseInt(port.getText().toString());
+                            String check = "";
+                            check = port.getText().toString();
+                            if (check.isEmpty()) {
+                                check = "22";
+                            }
+                            portnum = Integer.parseInt(check);
                             if (portnum > 65535 && portnum < 0)
                                 throw new UnknownHostException(port + "is not a valid port number ");
                             Client client = new Client(ipaddress, portnum);
@@ -94,59 +97,88 @@ public class MainActivity extends AppCompatActivity {
                         } catch (NumberFormatException e) {
                             showErrorsMessages("Please enter valid port number !! ");
                         }
-                    } else {
+                    }else {
                         connect.setText("Connect");
-                        changeSwitchesSatte(false);
+                        changeButtonState(false);
                         closeConnection();
                     }
                 }
             });
-            led1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView,
-                                             boolean isChecked) {
-                    if (isChecked) {
+    }
+        f.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(f.isPressed()){
+                        return false;
+                    }else{
+                        f.setPressed(true);
+                        state.setChecked(true);
                         lightOn(1);
-                    } else {
-                        lightOff(1);
+                        return true;
                     }
                 }
-            });
+                return false;
+            }
+        });
 
-            led2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView,
-                                             boolean isChecked) {
-                    if (isChecked) {
+        l.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(l.isPressed()){
+                        return false;
+                    }else{
+                        l.setPressed(true);
+                        state.setChecked(true);
                         lightOn(2);
-                    } else {
-                        lightOff(2);
+                        return true;
                     }
                 }
-            });
+                return false;
+            }
+        });
 
-            led3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView,
-                                             boolean isChecked) {
-
-                    if (isChecked) {
+        r.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(r.isPressed()){
+                        return false;
+                    }else{
+                        r.setPressed(true);
+                        state.setChecked(true);
                         lightOn(3);
-                    } else {
-                        lightOff(3);
+                        return true;
                     }
                 }
-            });
+                return false;
+            }
+        });
 
-        }//end of oncreate
-
-        }
+        state.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    if(state.isChecked()){
+                        state.toggle();
+                        lightOff(1);
+                        lightOff(2);
+                        lightOff(3);
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+                return false;
+            }
+        });
+    }//end of oncreate
 
     private void closeConnection() {
         try {
             out.writeObject("close");
             out.close();
-            in.close();
             socket.close();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -154,35 +186,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }//end of closeConnection
 
+
     @Override
     protected void onStop() {
         super.onStop();
         closeConnection();
     }
 
-    //////////////switches related methods ///////////////////
-    void checkSwitchStatus() {
-        if (led1.isChecked()) {
-            lightOn(1);
-        } else {
-            lightOff(1);
-        }
-        if (led2.isChecked()) {
-            lightOn(2);
-        } else {
-            lightOff(2);
-        }
-        if (led3.isChecked()) {
-            lightOn(3);
-        } else {
-            lightOff(3);
-        }
-    }
 
-    void changeSwitchesSatte(boolean state) {
-        led1.setEnabled(state);
-        led2.setEnabled(state);
-        led3.setEnabled(state);
+    void changeButtonState(boolean state) {
+        f.setPressed(state);
+        r.setPressed(state);
+        l.setPressed(state);
     }
 
     ////////////////////// light related methods /////////////
@@ -224,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
         private String ipaddress;
         private int portnum;
 
-        public Client(String ipaddress, int portnum) {
+        private Client(String ipaddress, int portnum) {
             this.ipaddress = ipaddress;
             this.portnum = portnum;
         }
@@ -237,38 +252,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        public void connectToServer(String ip, int port) {
+        private void connectToServer(String ip, int port) {
 
             try {
                 socket = new Socket(InetAddress.getByName(ip), port);
-//                Toast.makeText(getApplicationContext(), "socket made", Toast.LENGTH_SHORT).show();
-                System.out.println("Created Socket");
                 out = new ObjectOutputStream(socket.getOutputStream());
-                //System.out.println("Created out");
-//                Toast.makeText(getApplicationContext(), "output stream made", Toast.LENGTH_SHORT).show();
                 out.flush();
-//                System.out.println("flush");
-
-//                Toast.makeText(getApplicationContext(), "output stream flushed", Toast.LENGTH_SHORT).show();
-                //try {
-                    //InputStream testIn = socket.getInputStream();
-                    //ObjectInputStream in = new ObjectInputStream(testIn);
-//                    System.out.println("Created in");
-                    //                Toast.makeText(getApplicationContext(), "input stream made", Toast.LENGTH_SHORT).show();
-//                    System.out.println((String) in.readObject() + "\n");
-                    checkSwitchStatus();
-                    handler.post(new Runnable() {
-                        public void run() {
-                            connect.setText("Close");
-                            changeSwitchesSatte(true);
-                        }
-                    });
-                //}catch() {}
-//                catch(SocketTimeoutException e){
-//                    e.printStackTrace();
-//                } catch(StreamCorruptedException e) {
-//                    e.printStackTrace();
-//                }
+                handler.post(new Runnable() {
+                    public void run() {
+                        connect.setText("Connect");
+                    }
+                });
             } catch (IOException e) {
                 e.printStackTrace();
                 handler.post(new Runnable() {
@@ -277,12 +271,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-//            catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
 
         }
 
     }//end of client class
-
 }
