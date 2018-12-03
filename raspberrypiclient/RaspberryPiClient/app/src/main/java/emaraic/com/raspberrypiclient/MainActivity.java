@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if (portnum > 65535 && portnum < 0)
                                 throw new UnknownHostException(port + "is not a valid port number ");
-//                            Client client = new Client(ipaddress, portnum);
-//                            client.start();
+                            Client client = new Client(ipaddress, portnum);
+                            client.start();
                             Toast.makeText(MainActivity.this, "CONNECTED",
                                     Toast.LENGTH_LONG).show();
 
@@ -104,11 +104,11 @@ public class MainActivity extends AppCompatActivity {
                             showErrorsMessages("Please enter valid port number !! ");
                         }
                     }
-//                    else {
-//                        connect.setText("Connect");
-//                        changeButtonState(false);
-//                        closeConnection();
-//                    }
+                    else {
+                        connect.setText("Connect");
+                        changeButtonState(false);
+                        closeConnection();
+                    }
                 }
             });
             f.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "MOVE FORWARD",
                                 Toast.LENGTH_SHORT).show();
                         state.setChecked(true);
-//                        lightOn(1);
+                        lightOn(3);
                     } else{
                         Toast.makeText(MainActivity.this, "BUSY",
                                 Toast.LENGTH_SHORT).show();
@@ -130,13 +130,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(!(state.isChecked())){
-                        Toast.makeText(MainActivity.this, "MOVE LEFT",
-                                Toast.LENGTH_SHORT).show();
-                        state.setChecked(true);
-//                        lightOn(2);
-                    } else{
                         Toast.makeText(MainActivity.this, "BUSY",
+                            Toast.LENGTH_SHORT).show();
+                    } else{
+                        Toast.makeText(MainActivity.this, "ADJUST LEFT",
                                 Toast.LENGTH_SHORT).show();
+                        lightOn(2);
+
                     }
                 }
             });
@@ -145,13 +145,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (!(state.isChecked())) {
-                        Toast.makeText(MainActivity.this, "MOVE RIGHT",
-                                Toast.LENGTH_SHORT).show();
-                        state.setChecked(true);
-//                        lightOn(3);
-                    } else {
                         Toast.makeText(MainActivity.this, "BUSY",
                                 Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "ADJUST RIGHT",
+                                Toast.LENGTH_SHORT).show();
+                        lightOn(1);
                     }
                 }
             });
@@ -163,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "STOPPED",
                                 Toast.LENGTH_SHORT).show();
                         state.setChecked(false);
-//                        lightOn(3);
+                        lightOff(3);
                     }
                     else{
                         state.setChecked(false);
@@ -261,35 +260,35 @@ public class MainActivity extends AppCompatActivity {
             this.portnum = portnum;
         }
 
-//        @Override
-//        public void run() {
-//            super.run();
-//            connectToServer(ipaddress, portnum);
-//
-//        }
-//
-//
-//        private void connectToServer(String ip, int port) {
-//
-//            try {
-//                socket = new Socket(InetAddress.getByName(ip), port);
-//                out = new ObjectOutputStream(socket.getOutputStream());
-//                out.flush();
-//                handler.post(new Runnable() {
-//                    public void run() {
-//                        connect.setText("Connect");
-//                    }
-//                });
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                handler.post(new Runnable() {
-//                    public void run() {
-//                        showErrorsMessages("Unknown host!!");
-//                    }
-//                });
-//            }
-//
-//        }
+        @Override
+        public void run() {
+            super.run();
+            connectToServer(ipaddress, portnum);
+
+        }
+
+
+        private void connectToServer(String ip, int port) {
+
+            try {
+                socket = new Socket(InetAddress.getByName(ip), port);
+                out = new ObjectOutputStream(socket.getOutputStream());
+                out.flush();
+                handler.post(new Runnable() {
+                    public void run() {
+                        connect.setText("Connect");
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+                handler.post(new Runnable() {
+                    public void run() {
+                        showErrorsMessages("Unknown host!!");
+                    }
+                });
+            }
+
+        }
 
     }//end of client class
 }
