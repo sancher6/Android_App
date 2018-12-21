@@ -1,4 +1,8 @@
-package emaraic.com.raspberrypiclient;
+package sancher6@tcnj.edu.raspberrypiclient;
+
+import android.support.v7.app.AppCompatActivity;
+
+
 
 import android.app.AlertDialog;
 import android.os.Bundle;
