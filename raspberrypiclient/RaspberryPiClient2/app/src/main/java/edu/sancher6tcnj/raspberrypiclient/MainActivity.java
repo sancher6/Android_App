@@ -1,6 +1,8 @@
 package edu.sancher6tcnj.raspberrypiclient;
 
 import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -87,7 +89,10 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "CONNECTED",
                                     Toast.LENGTH_LONG).show();
 
-                            startActivity(new Intent(MainActivity.this, SecondaryActivity.class));
+                            Intent intent = new Intent(MainActivity.this, SecondaryActivity.class);
+                            intent.putExtra("ip", ipaddress);
+                            intent.putExtra("port", portnum);
+                            startActivity(intent);
                         } catch (UnknownHostException e) {
                             showErrorsMessages("Please enter a valid IP !! ");
                         } catch (NumberFormatException e) {
@@ -169,9 +174,7 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             super.run();
             connectToServer(ipaddress, portnum);
-
         }
-
 
         private void connectToServer(String ip, int port) {
 
@@ -194,6 +197,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-
     }//end of client class
+
 }
