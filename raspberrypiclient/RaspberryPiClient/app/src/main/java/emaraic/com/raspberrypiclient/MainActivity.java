@@ -1,4 +1,4 @@
-package sancher6@tcnj.edu.raspberrypiclient;
+package edu.sancher6tcnj.raspberrypiclient;
 
 import android.support.v7.app.AppCompatActivity;
 
@@ -8,8 +8,6 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
