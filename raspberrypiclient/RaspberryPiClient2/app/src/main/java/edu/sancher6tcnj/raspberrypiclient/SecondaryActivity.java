@@ -8,6 +8,8 @@ import android.widget.Button;
 
 public class SecondaryActivity extends AppCompatActivity {
     private Button remote_control, set_inst, prev_runs, disconnect, more;
+    private int portnum;
+    private String ipaddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,10 +21,20 @@ public class SecondaryActivity extends AppCompatActivity {
         disconnect = findViewById(R.id.disconnect);
         more = findViewById(R.id.more);
 
+        Bundle bundle = getIntent().getExtras();
+        int portnum = bundle.getInt("port");
+        String ipaddress = bundle.getString("ip");
+
         remote_control.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SecondaryActivity.this,RemoteActivity.class));
+            }
+        });
+        disconnect.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+
             }
         });
 

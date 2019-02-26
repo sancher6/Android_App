@@ -21,11 +21,6 @@ public class RemoteActivity extends AppCompatActivity {
         b = findViewById(R.id.b);
         start_stop = findViewById(R.id.start_stop);
 
-//        MainActivity main = MainActivity.get_Intent();
-        Bundle bundle = getIntent().getExtras();
-        int portnum = bundle.getInt("port");
-        String ipaddress = bundle.getString("ip");
-
         f.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

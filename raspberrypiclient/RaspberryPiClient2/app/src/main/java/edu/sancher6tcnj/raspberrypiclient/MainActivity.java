@@ -1,8 +1,6 @@
 package edu.sancher6tcnj.raspberrypiclient;
 
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             ip = (EditText) findViewById(R.id.ip);
             port = (EditText) findViewById(R.id.port);
             connect = (Button) findViewById(R.id.connect);
-
 
             connect.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -158,45 +155,4 @@ public class MainActivity extends AppCompatActivity {
         matcher = pattern.matcher(ip);
         return matcher.matches();
     }
-
-
-    /////////////// client thread ////////////////////////////
-    private class Client extends Thread {
-        private String ipaddress;
-        private int portnum;
-
-        private Client(String ipaddress, int portnum) {
-            this.ipaddress = ipaddress;
-            this.portnum = portnum;
-        }
-
-        @Override
-        public void run() {
-            super.run();
-            connectToServer(ipaddress, portnum);
-        }
-
-        private void connectToServer(String ip, int port) {
-
-            try {
-                socket = new Socket(InetAddress.getByName(ip), port);
-                out = new ObjectOutputStream(socket.getOutputStream());
-                out.flush();
-                handler.post(new Runnable() {
-                    public void run() {
-                        connect.setText("Connect");
-                    }
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-                handler.post(new Runnable() {
-                    public void run() {
-                        showErrorsMessages("Unknown host!!");
-                    }
-                });
-            }
-
-        }
-    }//end of client class
-
 }
