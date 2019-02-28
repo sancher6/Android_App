@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
                                 port.setText("22");
                                 portnum = Integer.parseInt(port.getText().toString());
                             }
-                            if (portnum > 65535 && portnum < 0)
+                            if (portnum > 65535 || portnum < 0)
                                 throw new UnknownHostException(port + "is not a valid port number ");
-                            Client client = new Client(ipaddress, portnum);
+                            Client client = new Client(ipaddress, portnum, socket, out);
                             client.start();
                             Toast.makeText(MainActivity.this, "CONNECTED",
                                     Toast.LENGTH_LONG).show();
