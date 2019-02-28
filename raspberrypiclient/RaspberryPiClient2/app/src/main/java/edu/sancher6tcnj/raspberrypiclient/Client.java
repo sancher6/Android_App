@@ -15,16 +15,14 @@ import java.io.ObjectOutputStream;
  */
 
 public class Client extends Thread implements Parcelable{
-    public String ipaddress;
-    public int portnum;
-    public Socket socket;
-    public ObjectOutputStream out;
+    private String ipaddress;
+    private int portnum;
+    private Socket socket;
+    private ObjectOutputStream out;
 
-    public Client(String ipaddress, int portnum, Socket socket, ObjectOutputStream out) {
+    public Client(String ipaddress, int portnum) {
         this.ipaddress = ipaddress;
         this.portnum = portnum;
-        this.socket = socket;
-        this.out = out;
     }
 
     @Override
@@ -43,6 +41,9 @@ public class Client extends Thread implements Parcelable{
             e.printStackTrace();
         }
     }
+    /*
+    Used for Parcel Information
+     */
     @Override
     public int describeContents() {
         return 0;
@@ -57,7 +58,6 @@ public class Client extends Thread implements Parcelable{
     private static Client readFromParcel(Parcel in) {
         String ip = in.readString();
         int port = in.readInt();
-        Socket socket = in.
         return new Client(ip, port);
     }
 

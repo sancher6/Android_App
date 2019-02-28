@@ -32,13 +32,12 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
     private EditText ip, port;
     private Button connect;
-    private ObjectOutputStream out;
-    private Socket socket;
     private String ipaddress;
     private int portnum;
     private Pattern pattern;
     private Matcher matcher;
     private Handler handler;
+    private Client client;
     private static final String IPADDRESS_PATTERN =
             "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
                     "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if (portnum > 65535 || portnum < 0)
                                 throw new UnknownHostException(port + "is not a valid port number ");
-                            Client client = new Client(ipaddress, portnum, socket, out);
+                            client = new Client(ipaddress, portnum);
                             client.start();
                             Toast.makeText(MainActivity.this, "CONNECTED",
                                     Toast.LENGTH_LONG).show();
@@ -114,7 +113,9 @@ public class MainActivity extends AppCompatActivity {
             showErrorsMessages(ex.getMessage());
         }
     }//end of closeConnection
-
+    public Client getClient(){
+        return (this.client);
+    }
 
     @Override
     protected void onStop() {
