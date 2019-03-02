@@ -95,55 +95,12 @@ public class MainActivity extends AppCompatActivity {
                             showErrorsMessages("Please enter valid port number !! ");
                         }
                     }
-                    else {
-                        connect.setText("Connected");
-                        closeConnection();
-                    }
                 }
             });
         }
     }
-    private void closeConnection() {
-        try {
-            out.writeObject("close");
-            out.close();
-            socket.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            showErrorsMessages(ex.getMessage());
-        }
-    }//end of closeConnection
     public Client getClient(){
         return (this.client);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        closeConnection();
-    }
-
-
-    ////////////////////// light related methods /////////////
-    void lightOn(int lednum) {
-        try {
-            out.writeObject(lednum + "1");
-            out.flush();
-            out.writeObject("end");
-        } catch (IOException e) {
-            e.printStackTrace();
-            showErrorsMessages("Error while sending command!!");
-        }
-    }
-
-    void lightOff(int lednum) {
-        try {
-            out.writeObject(lednum + "0");
-            out.flush();
-            out.writeObject("end");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 

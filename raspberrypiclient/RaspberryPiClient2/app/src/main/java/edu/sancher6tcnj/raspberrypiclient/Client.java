@@ -1,20 +1,17 @@
 package edu.sancher6tcnj.raspberrypiclient;
 
-import android.os.Handler;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.app.AlertDialog;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.io.ObjectOutputStream;
 
 /**
  * Created by peruv on 2/26/2019.
  */
 
-public class Client extends Thread implements Parcelable{
+public class Client extends Thread{
     private String ipaddress;
     private int portnum;
     private Socket socket;
@@ -41,35 +38,30 @@ public class Client extends Thread implements Parcelable{
             e.printStackTrace();
         }
     }
-    /*
-    Used for Parcel Information
-     */
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-    @Override
-    public void writeToParcel(Parcel out, int flags)
-    {
-        out.writeString(ipaddress);
-        out.writeInt(portnum);
-    }
-
-    private static Client readFromParcel(Parcel in) {
-        String ip = in.readString();
-        int port = in.readInt();
-        return new Client(ip, port);
-    }
-
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator()
-    {
-        public Client createFromParcel(Parcel in)
-        {
-            return readFromParcel(in);
+    ////////////////////// light related methods /////////////
+    void lightOn(int lednum) {
+        try {
+            out.writeObject(lednum + "1");
+            out.flush();
+            out.writeObject("end");
+        } catch (IOException e) {
+            e.printStackTrace();
+//            showErrorsMessages("Error while sending command!!");
         }
+    }
 
-        public Client[] newArray(int size) {
-            return new Client[size];
+    void lightOff(int lednum) {
+        try {
+            out.writeObject(lednum + "0");
+            out.flush();
+            out.writeObject("end");
+        } catch (IOException e) {
+            e.printStackTrace();
+//            showErrorsMessages("Error while sending command!!");
         }
-    };
+    }
+//    void showErrorsMessages(String error) {
+//        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+//        dialog.setTitle("Error!! ").setMessage(error).setNeutralButton("OK", null).create().show();
+//    }
 }

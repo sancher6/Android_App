@@ -10,6 +10,8 @@ public class RemoteActivity extends AppCompatActivity {
     private Button f, l, r, b, start_stop;
     private String ipaddress;
     private int portnum;
+    private Client client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +28,42 @@ public class RemoteActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
                     //send forward instruction
+                }
+                return false;
+            }
+        });
+        l.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
+                    //send forward instruction
+                }
+                return false;
+            }
+        });
+        r.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
+                    //send forward instruction
+                }
+                return false;
+            }
+        });
+        b.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
+                    //send forward instruction
+                }
+                return false;
+            }
+        });
+        start_stop.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
+                    //check text on Button
                 }
                 return false;
             }

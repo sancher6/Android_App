@@ -24,8 +24,8 @@ public class MyRunHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        String CREATE_TABLE = "CREATE TABLE" + TABLE_NAME + "(" + COLUMN_ID +
-                "STRING PRIMARYKEY," + COLUMN_NAME + "TEXT )" + COLUMN_TIME + "TEXT )"+ COLUMN_INSTR + "TEXT )";
+        String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + COLUMN_ID +
+                "STRING PRIMARYKEY," + COLUMN_NAME + "TEXT )" + COLUMN_TIME + " TEXT )"+ COLUMN_INSTR + "TEXT )";
         db.execSQL(CREATE_TABLE);
     }
 
