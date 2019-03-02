@@ -8,6 +8,7 @@ import android.widget.Button;
 
 public class SecondaryActivity extends AppCompatActivity {
     private Button remote_control, set_inst, prev_runs, disconnect, more;
+    private Client client;
     private int portnum;
     private String ipaddress;
     @Override
@@ -34,7 +35,7 @@ public class SecondaryActivity extends AppCompatActivity {
         disconnect.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-
+//                client  =
             }
         });
 

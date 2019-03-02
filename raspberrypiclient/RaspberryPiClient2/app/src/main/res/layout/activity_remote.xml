@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true">
 
-        <Button
+        <ToggleButton
             android:id="@+id/start_stop"
             android:layout_width="86dp"
             android:layout_height="65dp"

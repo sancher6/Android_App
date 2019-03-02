@@ -46,19 +46,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        /*////////////////////////////////////////////////////////
+        Checks SDK version to ensure proper functionality
+        *////////////////////////////////////////////////////////
         if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            //your codes here
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
             pattern = Pattern.compile(IPADDRESS_PATTERN);
             handler = new Handler();
-            ip = (EditText) findViewById(R.id.ip);
-            port = (EditText) findViewById(R.id.port);
-            connect = (Button) findViewById(R.id.connect);
+            ip = findViewById(R.id.ip);
+            port = findViewById(R.id.port);
+            connect = findViewById(R.id.connect);
 
             connect.setOnClickListener(new View.OnClickListener() {
                 @Override

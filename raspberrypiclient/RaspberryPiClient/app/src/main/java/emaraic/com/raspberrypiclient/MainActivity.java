@@ -1,4 +1,4 @@
-package edu.sancher6tcnj.raspberrypiclient;
+package emaraic.com.raspberrypiclient.;
 
 import android.support.v7.app.AppCompatActivity;
 
@@ -22,6 +22,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import emaraic.com.raspberrypiclient.R;
 
 /**
  * @author Richard Bustamante
