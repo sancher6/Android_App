@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -34,9 +33,8 @@ public class RemoteActivity extends AppCompatActivity {
         b = findViewById(R.id.b);
         start_stop = findViewById(R.id.start_stop);
 
-//        camera.loadUrl("http://192.168.4.1:8000/");
-        camera.setWebViewClient(new WebViewClient());
-        camera.loadUrl("http://www.google.com");
+        camera.loadUrl("http://192.168.4.1:8000/");
+
         setContentView(R.layout.activity_remote);
 
         /*////////////////////////////////////////////////////////
@@ -112,15 +110,5 @@ public class RemoteActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-    @Override
-    public void onBackPressed(){
-        if (camera.canGoBack()){
-            camera.goBack();
-        }
-        else{
-            super.onBackPressed();
-        }
-
     }
 }
