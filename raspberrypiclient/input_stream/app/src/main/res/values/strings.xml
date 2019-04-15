@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Input Stream</string>
+    <string name="proj_title">Autonomous Car with Android-Based Control</string>
+    <string name="port">Port</string>
+    <string name="ip">Raspberry Pi IP</string>
+    <string name="connect">Connect</string>
+    <string name="TCNJ">TCNJ School of Engineering</string>
+
+</resources>
