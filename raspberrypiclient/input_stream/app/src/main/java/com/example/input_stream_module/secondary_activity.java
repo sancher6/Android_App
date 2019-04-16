@@ -10,4 +10,5 @@ public class secondary_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secondary_activity);
     }
+
 }

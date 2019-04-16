@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_LONG).show();
 
                             Intent intent = new Intent(MainActivity.this, secondary_activity.class);
-                            intent.putExtra("ip", ipaddress);
-                            intent.putExtra("port", portnum);
+//                            intent.putExtra("ip", ipaddress);
+//                            intent.putExtra("port", portnum);
                             startActivity(intent);
                         } catch (UnknownHostException e) {
                             showErrorsMessages("Please enter a valid IP !! ");
