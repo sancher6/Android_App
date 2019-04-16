@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:lines="2"
+        android:maxLines="4"
+        android:text="@string/proj_title"
+        android:gravity="center"
+        android:textSize="32sp"
+        android:textColor="@color/Blue" />
+
+    <EditText
+        android:id="@+id/port"
+        android:layout_width="313dp"
+        android:layout_height="57dp"
+        android:layout_alignStart="@+id/tcnj"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="156dp"
+        android:inputType="numberSigned"
+        android:hint="@string/port"
+        android:autofillHints="@string/port" />
+
+    <EditText
+        android:id="@+id/ip"
+        android:layout_width="313dp"
+        android:layout_height="57dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/port"
+        android:layout_marginTop="90dp"
+        android:inputType="numberSigned"
+        android:hint="@string/ip"
+        android:autofillHints="@string/ip"/>
+
+    <Button
+        android:id="@+id/connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/connect" />
+
+    <Button
+        android:id="@+id/disconnect"
+        android:layout_width="131dp"
+        android:layout_height="64dp"
+        android:layout_alignTop="@+id/title"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="139dp"
+        android:layout_marginTop="401dp"
+        android:layout_marginEnd="141dp"
+        android:layout_marginBottom="266dp"
+        android:text="@string/disconnect" />
+
+    <ImageView
+        android:id="@+id/tcnj"
+        android:layout_width="wrap_content"
+        android:layout_height="212dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:contentDescription="@string/TCNJ"
+        app:srcCompat="@drawable/tcnj_engineering" />
+
+</RelativeLayout>
