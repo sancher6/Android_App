@@ -6,4 +6,9 @@
     <string name="connect">Connect</string>
     <string name="disconnect">Disconnect</string>
     <string name="TCNJ">TCNJ School of Engineering</string>
+    <string name="Forward">Forward</string>
+    <string name="Backward">Backward</string>
+    <string name="Left">Left</string>
+    <string name="Right">Right</string>
+    <string name="STOP">STOP</string>
 </resources>

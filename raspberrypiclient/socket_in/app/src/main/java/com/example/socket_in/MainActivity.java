@@ -17,6 +17,11 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
     private EditText ip, port;
     private Button connect;
+    private Button forward;
+    private Button backward;
+    private Button left;
+    private Button right;
+    private Button stop;
     private Button disconnect;
     private String ipaddress;
     private int portnum;
@@ -39,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
         port = findViewById(R.id.port);
         connect = findViewById(R.id.connect);
         disconnect = findViewById(R.id.disconnect);
+        forward = findViewById(R.id.forward);
+        backward = findViewById(R.id.backward);
+        left = findViewById(R.id.left);
+        right = findViewById(R.id.right);
+        stop = findViewById(R.id.stop);
 
 
         connect.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     client.start();
                     Toast.makeText(MainActivity.this, "CONNECTED",
                             Toast.LENGTH_LONG).show();
-                    connect.setText("CONNECTED");
+//                    connect.setText("CONNECTED");
                 } catch (UnknownHostException e) {
                     showErrorsMessages("Please enter a valid IP !! ");
                 } catch (NumberFormatException e) {
@@ -79,10 +89,44 @@ public class MainActivity extends AppCompatActivity {
                 check = connect.getText().toString();
                 if(check == "CONNECTED"){
                     //DISCONNECT BITCHHHHH
-
+                    client.instrOn("disconnect");
                 }
             }
         });
+        forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String check = "";
+                check = connect.getText().toString();
+                if(check == "CONNECTED"){
+                    //DISCONNECT BITCHHHHH
+                    client.instrOn("forward");
+                }
+            }
+        });
+        left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String check = "";
+                check = connect.getText().toString();
+                if(check == "CONNECTED"){
+                    //DISCONNECT BITCHHHHH
+                    client.instrOn("left");
+                }
+            }
+        });
+        right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String check = "";
+                check = connect.getText().toString();
+                if(check == "CONNECTED"){
+                    //DISCONNECT BITCHHHHH
+                    client.instrOn("right");
+                }
+            }
+        });
+
     }
     void showErrorsMessages(String error) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);

@@ -1,9 +1,10 @@
-package emaraic.com.raspberrypiclient.;
+package emaraic.com.raspberrypiclient;
 
 import android.support.v7.app.AppCompatActivity;
 
 
-
+import android.view.MotionEvent;
+import android.view.View.OnTouchListener;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -121,14 +122,28 @@ public class MainActivity extends AppCompatActivity {
                     if(!(state.isChecked())){
                         Toast.makeText(MainActivity.this, "MOVE FORWARD",
                                 Toast.LENGTH_SHORT).show();
-                        state.setChecked(true);
-                        lightOn(3);
+                        lightOn(2);
                     } else{
                         Toast.makeText(MainActivity.this, "BUSY",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
             });
+//            button.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    switch (event.getAction()) {
+//                        case MotionEvent.ACTION_DOWN: {
+//                            // Button is pressed
+//                            break;
+//                        }
+//                        case MotionEvent.ACTION_UP: {
+//                            // Button is not pressed
+//                        }
+//                    }
+//                    return true;
+//                }
+//            });
 
             l.setOnClickListener(new View.OnClickListener() {
                 @Override

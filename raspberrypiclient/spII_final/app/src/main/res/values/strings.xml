@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">SP II Autonomous Car</string>
+    <string name="raspberry_pi_ip">Raspberry Pi IP</string>
+    <string name="port">Port</string>
+    <string name="connect">Connect</string>
+    <string name="go_right">Go Right</string>
+    <string name="go_left">Go Left</string>
+    <string name="go_back">Go Back</string>
+    <string name="start">Start</string>
+    <color name="myColor">#F5F5F5</color>
+
+    <string name="ip">192.168.4.1</string>
+    <string name="h_port">22</string>
+    <string name="up_des">Moves car forward</string>
+    <string name="right_des">Moves car right</string>
+    <string name="left_des">Moves car left</string>
+    <string name="OFF">STOP</string>
+    <string name="manual">MANUAL OVERRIDE</string>
+
+</resources>

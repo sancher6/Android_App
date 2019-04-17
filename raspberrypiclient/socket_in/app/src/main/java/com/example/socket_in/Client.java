@@ -1,7 +1,10 @@
 package com.example.socket_in;
 
 import android.content.Context;
-import android.widget.Toast;
+import android.os.Handler;
+import android.widget.Button;
+
+import com.example.socket_in.MainActivity;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,6 +21,7 @@ public class Client extends Thread{
     private ObjectInputStream in;
     private String msg;
     private Context context;
+    private Handler handler;
 
     public Client(String ipaddress, int portnum) {
         this.ipaddress = ipaddress;
@@ -35,22 +39,51 @@ public class Client extends Thread{
             socket = new Socket(InetAddress.getByName(ip), port);
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
-            in = new ObjectInputStream(socket.getInputStream());
+            handler.post(new Runnable() {
+                public void run() {
+                    context =
+                }
+            });
+//            in = new ObjectInputStream(socket.getInputStream());
 
-            msg = "Hello?";
+            msg = "initialize";
 
             out.writeObject(msg);
 
-            while ((msg =(String) in.readObject()) != null) {
-                if(msg == "Hi!"){
-                    break;
-                }
-            }
+//            while ((msg =(String) in.readObject()) != null) {
+//                if(msg == "Hi!"){
+//                    break;
+//                }
+//            }
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch(ClassNotFoundException e){
+        }
+//        } catch(ClassNotFoundException e){
+//            e.printStackTrace();
+//        }
+    }
+    ////////////////////// light related methods /////////////
+    void instrOn(String instr) {
+        try {
+            out.flush();
+            out.writeObject(instr);
+            out.flush();
+            out.writeObject("end");
+        } catch (IOException e) {
             e.printStackTrace();
+//            showErrorsMessages("Error while sending command!!");
+        }
+    }
+
+    void instrOff(String instr) {
+        try {
+            out.writeObject(instr);
+            out.flush();
+            out.writeObject("end");
+        } catch (IOException e) {
+            e.printStackTrace();
+//            showErrorsMessages("Error while sending command!!");
         }
     }
 }

@@ -24,53 +24,88 @@
         android:id="@+id/port"
         android:layout_width="313dp"
         android:layout_height="57dp"
-        android:layout_alignStart="@+id/tcnj"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="156dp"
-        android:inputType="numberSigned"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/ip"
+        android:layout_marginTop="23dp"
+        android:autofillHints="@string/port"
         android:hint="@string/port"
-        android:autofillHints="@string/port" />
+        android:inputType="numberSigned" />
 
     <EditText
         android:id="@+id/ip"
         android:layout_width="313dp"
         android:layout_height="57dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/port"
-        android:layout_marginTop="90dp"
-        android:inputType="numberSigned"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/title"
+        android:layout_marginTop="23dp"
+        android:autofillHints="@string/ip"
         android:hint="@string/ip"
-        android:autofillHints="@string/ip"/>
+        android:inputType="numberSigned" />
 
     <Button
         android:id="@+id/connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:textAlignment="center"
         android:text="@string/connect" />
 
     <Button
         android:id="@+id/disconnect"
-        android:layout_width="131dp"
-        android:layout_height="64dp"
-        android:layout_alignTop="@+id/title"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="139dp"
-        android:layout_marginTop="401dp"
-        android:layout_marginEnd="141dp"
-        android:layout_marginBottom="266dp"
-        android:text="@string/disconnect" />
-
-    <ImageView
-        android:id="@+id/tcnj"
         android:layout_width="wrap_content"
-        android:layout_height="212dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/connect"
+        android:layout_marginTop="23dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="11dp"
-        android:contentDescription="@string/TCNJ"
-        app:srcCompat="@drawable/tcnj_engineering" />
+        android:text="@string/disconnect"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/disconnect"
+        android:layout_marginTop="23dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/Forward" />
+
+    <Button
+        android:id="@+id/backward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stop"
+        android:layout_marginTop="23dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/Backward" />
+
+    <Button
+        android:id="@+id/left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forward"
+        android:layout_marginTop="23dp"
+        android:layout_toLeftOf="@id/stop"
+        android:layout_toStartOf="@id/stop"
+        android:text="@string/Left" />
+
+    <Button
+        android:id="@+id/right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forward"
+        android:layout_marginTop="23dp"
+        android:layout_toRightOf="@id/stop"
+        android:layout_toEndOf="@id/stop"
+        android:text="@string/Right" />
+
+    <Button
+        android:id="@+id/stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forward"
+        android:layout_marginTop="23dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/STOP" />
+
 
 </RelativeLayout>
