@@ -1,4 +1,4 @@
-package com.spii_android_pi_client;
+package com.spii;
 
 import android.app.Application;
 import android.content.Context;

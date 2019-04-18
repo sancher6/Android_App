@@ -45,10 +45,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/port"
+        android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
-        android:text="@string/connect" />
+        android:text="@string/connect"
+        android:onClick="onClick" />
 
     <ImageButton
         android:id="@+id/up"
@@ -56,8 +57,9 @@
         android:layout_height="75dp"
         android:layout_below="@+id/connect"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="81dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/up_des"
+        android:onClick="onClick"
         app:srcCompat="@drawable/up" />
 
     <ImageButton
@@ -65,49 +67,69 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_below="@+id/up"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/connect"
         android:layout_toEndOf="@+id/connect"
-        android:layout_toRightOf="@+id/connect"
         app:srcCompat="@drawable/right"
-        android:contentDescription="@string/go_right"/>
+        android:contentDescription="@string/go_right"
+        android:onClick="onClick"/>
 
     <ImageButton
         android:id="@+id/left"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_below="@+id/up"
+        android:layout_marginTop="5dp"
         android:layout_toLeftOf="@+id/connect"
         android:layout_toStartOf="@+id/connect"
         app:srcCompat="@drawable/left"
-        android:contentDescription="@string/go_left"/>
+        android:contentDescription="@string/go_left"
+        android:onClick="onClick"/>
 
     <ImageButton
         android:id="@+id/back"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_below="@+id/up"
+        android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:contentDescription="@string/up_des"
-        app:srcCompat="@drawable/back" />
+        app:srcCompat="@drawable/back"
+        android:onClick="onClick"/>
 
     <Button
         android:id="@+id/off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/back"
+        android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
-        android:text="@string/OFF" />
+        android:text="@string/OFF"
+        android:onClick="onClick"/>
     <Button
         android:id="@+id/MANUALOVERRIDE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_below="@+id/off"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="@string/manual" />
+        android:text="@string/manual"
+        android:onClick="onClick"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/MANUALOVERRIDE"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textSize="12dp" />
 
 </RelativeLayout>
 

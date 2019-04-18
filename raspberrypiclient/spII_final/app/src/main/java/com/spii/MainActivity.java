@@ -1,4 +1,4 @@
-package com.spii_android_pi_client;
+package com.spii;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton r;
     private ImageButton l;
     private ImageButton b;
+    private TextView action;
     private EditText ip, port;
     private Button Connect;
     private ObjectOutputStream out;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ip = (EditText) findViewById(R.id.ip);
         port = (EditText) findViewById(R.id.port);
+        action = findViewById(R.id.textView);
 
 
         f = (ImageButton) findViewById(R.id.up);
@@ -71,23 +75,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         override = (Button) findViewById(R.id.MANUALOVERRIDE);
         Connect = (Button) findViewById(R.id.connect);
 
-        Connect.setOnClickListener(this);
-        state.setOnClickListener(this);
-        override = (Button) findViewById(R.id.MANUALOVERRIDE);
-        f.setOnClickListener(this);
-        l.setOnClickListener(this);
-        r.setOnClickListener(this);
-        b.setOnClickListener(this);
+//        Connect.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                testInstr(getString(R.string.connected));
+//                return false;
+//            }
+//        });
+//        state.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                testInstr(getString(R.string.OFF));
+//                return false;
+//            }
+//        });
+//        f.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                testInstr(getString(R.string.forward));
+//                return false;
+//            }
+//        });
+//        l.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                testInstr(getString(R.string.left));
+//                return false;
+//            }
+//        });
+//        r.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                testInstr(getString(R.string.right));
+//                return false;
+//            }
+//        });
+//        b.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                testInstr(getString(R.string.backward));
+//                return false;
+//            }
+//        });
 
 
         pattern = Pattern.compile(IPADDRESS_PATTERN);
         handler = new Handler();
-    }//end of oncreate
+    }//end of on create
 
     private void closeConnection() {
         try {
             out.writeObject("close");
             out.close();
+            in.close();
             socket.close();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -99,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        closeConnection();
+//        closeConnection();
     }
 
 
@@ -124,12 +164,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showErrorsMessages("Error while sending command!!");
         }catch(ClassNotFoundException e){
             e.printStackTrace();
+            showErrorsMessages("Error while sending command!!");
+        }
+    }
+    void testInstr(String instruction, final View v) {
+        String msg = action.getText().toString();
+        if(!(instruction.equals(msg))) {
+            //do instr
+            action.setText(instruction);
+            final Toast toast = Toast.makeText(GlobalApplication.getAppContext(), instruction,
+                    Toast.LENGTH_SHORT);
+            toast.show();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //do something after 1s
+                    while(v.isPressed()){
+                        toast.show();
+                    }
+                }
+            },1000);
         }
     }
 
-    public static java.net.Socket getSocket() {
-        return socket;
-    }
+    public static java.net.Socket getSocket() { return socket; }
 
     public boolean getState() {
         try {
@@ -160,26 +218,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()){
             case(R.id.connect):
-                if (Connect.getText().toString().equalsIgnoreCase("Connect")) {
+                if (Connect.getText().toString().equals("Connect")) {
                     try {
                         String check = "";
                         check = ip.getText().toString();
                         if (check.isEmpty()) {
-                            ip.setText("192.168.4.1");
+                            ip.setText(getString(R.string.ip));
                             ipaddress = ip.getText().toString();
                         }
                         if (!checkIP(ipaddress))
                             throw new UnknownHostException(port + "is not a valid IP address");
                         check = port.getText().toString();
                         if (check.isEmpty()) {
-                            port.setText("22");
+                            port.setText(getString(R.string.h_port));
                             portnum = Integer.parseInt(port.getText().toString());
                         }
-                        if (portnum > 65535 && portnum < 0)
-                            throw new UnknownHostException(port + "is not a valid port number ");
-                        Client client = new Client(ipaddress, portnum);
-                        client.start();
-                        Connect.setText("Connected");
+//                        Client client = new Client(ipaddress, portnum);
+//                        client.start();
+                        Connect.setTextSize(14);
+                        Connect.setHeight(10);
+                        Connect.setWidth(50);
+                        Connect.setText(getString(R.string.connected));
                         Connect.setBackgroundColor(Color.GREEN);
                         Toast.makeText(MainActivity.this, "CONNECTED",
                                 Toast.LENGTH_LONG).show();
@@ -189,31 +248,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         showErrorsMessages("Please enter valid port number !! ");
                     }
                 } else {
-                    Connect.setText("Connect");
-                    sendInstr("disconnect");
-                    closeConnection();
+                    Connect.setText(getString(R.string.connect));
+//                    sendInstr("disconnect");
+//                    closeConnection();
                     Toast.makeText(MainActivity.this, "DISCONNECTED",
                             Toast.LENGTH_LONG).show();
+                    testInstr(getString(R.string.disconnected), v);
                 }
                 break;
             case(R.id.up):
-                sendInstr("forward");
+//                sendInstr("forward");
+                testInstr(getString(R.string.forward), v);
                 break;
             case(R.id.back):
-                sendInstr("back");
+//                sendInstr("back");
+                testInstr(getString(R.string.backward), v);
                 break;
             case(R.id.left):
-                sendInstr("left");
+//                sendInstr("left");
+                testInstr(getString(R.string.left), v);
                 break;
             case(R.id.right):
-                sendInstr("right");
+//                sendInstr("right");
+                testInstr(getString(R.string.right), v);
                 break;
             case(R.id.off):
-                sendInstr("stop");
+//                sendInstr("stop");
+                testInstr(getString(R.string.OFF), v);
                 break;
             case(R.id.MANUALOVERRIDE):
                 //go to manual override
-                sendInstr("stop");
+//                sendInstr("stop");
                 //go to remote
                 Intent intent = new Intent(MainActivity.this, remote.class);
                 startActivity(intent);
@@ -247,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 out.flush();
                 handler.post(new Runnable() {
                     public void run() {
-                        Connect.setText("Connect");
+                        Connect.setText(getString(R.string.connect));
                     }
                 });
             } catch (IOException e) {

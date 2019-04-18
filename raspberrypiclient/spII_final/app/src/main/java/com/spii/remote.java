@@ -1,26 +1,32 @@
-package com.spii_android_pi_client;
+package com.spii;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
-import android.support.v4.app.SupportActivity.ExtraData;
-
-import java.net.Socket;
 
 public class remote extends AppCompatActivity implements View.OnClickListener{
     private ImageButton fr;
     private ImageButton rr;
     private ImageButton lr;
     private ImageButton br;
+    private WebView webView;
     MainActivity mainActivity;
-    private Socket socket;
+//    private Socket socket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remote);
+
+        webView = findViewById(R.id.webview);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("http://google.com");
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
 
         fr = (ImageButton) findViewById(R.id.upr);
         rr = (ImageButton) findViewById(R.id.rightr);
@@ -32,7 +38,7 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
         rr.setOnClickListener(this);
         br.setOnClickListener(this);
 
-        socket = mainActivity.getSocket();
+//        socket = mainActivity.getSocket();
 
 
     }
@@ -41,22 +47,35 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()) {
             case (R.id.upr):
-                mainActivity.sendInstr("forward");
+//                mainActivity.testInstr(g;("forward");
+                mainActivity.testInstr(getString(R.string.forward), v);
                 break;
             case (R.id.backr):
-                mainActivity.sendInstr("back");
+//                mainActivity.testInstr(g;("back");
+                mainActivity.testInstr(getString(R.string.backward), v);
                 break;
             case (R.id.leftr):
-                mainActivity.sendInstr("left");
+//                mainActivity.testInstr(g;("left");
+                mainActivity.testInstr(getString(R.string.left), v);
                 break;
             case (R.id.rightr):
-                mainActivity.sendInstr("right");
+//                mainActivity.testInstr(g;("right");
+                mainActivity.testInstr(getString(R.string.right), v);
                 break;
             case (R.id.POWER):
-                mainActivity.sendInstr("stop");
+//                mainActivity.testInstr(g;("stop");
+                mainActivity.testInstr(getString(R.string.OFF), v);
                 break;
             default:
                 break;
+        }
+    }
+    @Override
+    public void onBackPressed(){
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
         }
     }
 }
