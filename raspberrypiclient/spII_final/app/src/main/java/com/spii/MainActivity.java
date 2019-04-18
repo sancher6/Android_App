@@ -1,5 +1,6 @@
 package com.spii;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int portnum;
     private Pattern pattern;
     private Matcher matcher;
+    public Context main_context = this.getApplicationContext();
     private Handler handler;
     private static final String IPADDRESS_PATTERN =
             "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
@@ -142,6 +144,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        closeConnection();
     }
 
+    public Context getContext(){
+        return main_context;
+    }
 
     void changeButtonState(Boolean off) {
         f.setPressed(off);

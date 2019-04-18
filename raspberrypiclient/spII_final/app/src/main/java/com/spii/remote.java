@@ -1,5 +1,6 @@
 package com.spii;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,8 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
     private ImageButton rr;
     private ImageButton lr;
     private ImageButton br;
+
+    public Context context;
     private WebView webView;
     MainActivity mainActivity;
 //    private Socket socket;
@@ -27,7 +30,7 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-
+        context = mainActivity.getContext();
         fr = (ImageButton) findViewById(R.id.upr);
         rr = (ImageButton) findViewById(R.id.rightr);
         lr = (ImageButton) findViewById(R.id.leftr);
