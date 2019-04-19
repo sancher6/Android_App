@@ -11,6 +11,7 @@
     <string name="OFF">STOP</string>
 
     <string name="disconnected">Disconnected</string>
+    <string name="disconnect">DISCONNECT</string>
     <string name="connect">Connect</string>
     <string name="connected">Connected</string>
 
