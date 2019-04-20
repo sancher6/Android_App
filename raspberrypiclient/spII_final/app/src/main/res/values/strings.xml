@@ -4,11 +4,11 @@
     <string name="raspberry_pi_ip">Raspberry Pi IP</string>
     <string name="port">Port</string>
 
-    <string name="forward">FORWARD</string>
-    <string name="backward">BACKWARD</string>
-    <string name="left">LEFT</string>
-    <string name="right">RIGHT</string>
-    <string name="OFF">STOP</string>
+    <string name="forward">forward</string>
+    <string name="backward">backward</string>
+    <string name="left">left</string>
+    <string name="right">right</string>
+    <string name="OFF">stop</string>
 
     <string name="disconnected">Disconnected</string>
     <string name="disconnect">DISCONNECT</string>

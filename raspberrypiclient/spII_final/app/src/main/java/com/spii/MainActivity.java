@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.UnknownHostException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,14 +65,31 @@ public class MainActivity extends AppCompatActivity{
                 // Get touch action.
                 int action = motionEvent.getAction();
 
-                if(action == MotionEvent.ACTION_DOWN) {
+                if(action == MotionEvent.ACTION_DOWN && Connect.getText().toString().equals("Connected")) {
                     // If pressed.
-                    sendInstr(getString(R.string.forward));
-                }else if(action == MotionEvent.ACTION_UP) {
+                    try {
+                        sendInstr(getString(R.string.forward));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }else if(action == MotionEvent.ACTION_UP && Connect.getText().toString().equals("Connected")) {
                     // If released.
 //                    view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
+                makeToast("Not Connected");
                 return false;
             }
         });
@@ -82,14 +100,31 @@ public class MainActivity extends AppCompatActivity{
                 // Get touch action.
                 int action = motionEvent.getAction();
 
-                if(action == MotionEvent.ACTION_DOWN) {
+                if(action == MotionEvent.ACTION_DOWN && Connect.getText().toString().equals("Connected")) {
                     // If pressed.
-                    sendInstr(getString(R.string.backward));
-                }else if(action == MotionEvent.ACTION_UP) {
+                    try {
+                        sendInstr(getString(R.string.backward));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }else if(action == MotionEvent.ACTION_UP && Connect.getText().toString().equals("Connected")) {
                     // If released.
 //                    view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
+                makeToast("Not Connected");
                 return false;
             }
         });
@@ -99,14 +134,31 @@ public class MainActivity extends AppCompatActivity{
                 // Get touch action.
                 int action = motionEvent.getAction();
 
-                if(action == MotionEvent.ACTION_DOWN) {
+                if(action == MotionEvent.ACTION_DOWN && Connect.getText().toString().equals("Connected")) {
                     // If pressed.
-                    sendInstr(getString(R.string.left));
-                }else if(action == MotionEvent.ACTION_UP) {
+                    try {
+                        sendInstr(getString(R.string.left));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }else if(action == MotionEvent.ACTION_UP && Connect.getText().toString().equals("Connected")) {
                     // If released.
 //                    view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
+                makeToast("Not Connected");
                 return false;
             }
         });
@@ -116,14 +168,31 @@ public class MainActivity extends AppCompatActivity{
                 // Get touch action.
                 int action = motionEvent.getAction();
 
-                if(action == MotionEvent.ACTION_DOWN) {
+                if(action == MotionEvent.ACTION_DOWN && Connect.getText().toString().equals("Connected")) {
                     // If pressed.
-                    sendInstr(getString(R.string.right));
-                }else if(action == MotionEvent.ACTION_UP) {
+                    try {
+                        sendInstr(getString(R.string.right));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }else if(action == MotionEvent.ACTION_UP && Connect.getText().toString().equals("Connected")) {
                     // If released.
 //                    view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
+                makeToast("Not Connected");
                 return false;
             }
         });
@@ -153,9 +222,6 @@ public class MainActivity extends AppCompatActivity{
                             }
                             GlobalApplication.setIP(ipaddress);
                             GlobalApplication.setPort(portnum);
-//                            Connect.setTextSize(14);
-//                            Connect.setHeight(10);
-//                            Connect.setWidth(50);
                             Connect.setText(getString(R.string.connected));
                             makeToast("CONNECTED");
                         } catch (UnknownHostException e) {
@@ -166,14 +232,30 @@ public class MainActivity extends AppCompatActivity{
                     } else {
                         Connect.setText(getString(R.string.connect));
                         Connect.setBackgroundColor(Color.WHITE);
-                        GlobalApplication.sendInstr(getString(R.string.disconnect));
+                        try {
+                            GlobalApplication.sendInstr(getString(R.string.disconnect));
+                        } catch (NoSuchMethodException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
                         makeToast(getString(R.string.disconnected));
 
                     }
                 }else if(action == MotionEvent.ACTION_UP) {
                     // If released.
                     view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
@@ -187,11 +269,13 @@ public class MainActivity extends AppCompatActivity{
 
     public void onClick(View v) {
         switch(v.getId()){
-            case(R.id.connect):
-                break;
             case(R.id.MANUALOVERRIDE):
-                Intent intent = new Intent(getApplicationContext(), remote.class);
-                startActivity(intent);
+                if(Connect.getText().toString().equals("Connected")){
+                    Intent intent = new Intent(getApplicationContext(), remote.class);
+                    startActivity(intent);
+                } else{
+                    makeToast("Not Connected");
+                }
             default:
                 break;
         }

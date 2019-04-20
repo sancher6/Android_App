@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 
+import java.lang.reflect.InvocationTargetException;
+
 import static com.spii.GlobalApplication.sendInstr;
 
 public class remote extends AppCompatActivity implements View.OnClickListener{
@@ -48,11 +50,27 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
 
                 if(action == MotionEvent.ACTION_DOWN) {
                     // If pressed.
-                    sendInstr(getString(R.string.forward));
+                    try {
+                        sendInstr(getString(R.string.forward));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }else if(action == MotionEvent.ACTION_UP) {
                     // If released.
                     view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
@@ -65,11 +83,27 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
 
                 if(action == MotionEvent.ACTION_DOWN) {
                     // If pressed.
-                    sendInstr(getString(R.string.backward));
+                    try {
+                        sendInstr(getString(R.string.backward));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }else if(action == MotionEvent.ACTION_UP) {
                     // If released.
                     view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
@@ -82,11 +116,27 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
 
                 if(action == MotionEvent.ACTION_DOWN) {
                     // If pressed.
-                    sendInstr(getString(R.string.left));
+                    try {
+                        sendInstr(getString(R.string.left));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }else if(action == MotionEvent.ACTION_UP) {
                     // If released.
                     view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
@@ -99,11 +149,27 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
 
                 if(action == MotionEvent.ACTION_DOWN) {
                     // If pressed.
-                    sendInstr(getString(R.string.right));
+                    try {
+                        sendInstr(getString(R.string.right));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }else if(action == MotionEvent.ACTION_UP) {
                     // If released.
                     view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
@@ -117,11 +183,27 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
 
                 if(action == MotionEvent.ACTION_DOWN) {
                     // If pressed.
-                    sendInstr(getString(R.string.right));
+                    try {
+                        sendInstr(getString(R.string.right));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }else if(action == MotionEvent.ACTION_UP) {
                     // If released.
                     view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
@@ -135,11 +217,27 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
 
                 if(action == MotionEvent.ACTION_DOWN) {
                     // If pressed.
-                    sendInstr(getString(R.string.right));
+                    try {
+                        sendInstr(getString(R.string.right));
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }else if(action == MotionEvent.ACTION_UP) {
                     // If released.
                     view.performClick();
-                    sendInstr("done");
+                    try {
+                        sendInstr("done");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
@@ -150,19 +248,44 @@ public class remote extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()) {
             case (R.id.POWER):
-                GlobalApplication.disconnect();
+                try {
+                    GlobalApplication.sendInstr((getString((R.string.OFF))));
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 break;
             case (R.id.dc):
-                GlobalApplication.sendInstr((getString(R.string.OFF).toLowerCase()));
+                try {
+                    GlobalApplication.sendInstr((getString(R.string.disconnect).toLowerCase()));
+                    GlobalApplication.disconnect();
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             default:
                 break;
         }
     }
     @Override
     public void onBackPressed(){
-        GlobalApplication.disconnect();
+        try {
+            GlobalApplication.disconnect();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }

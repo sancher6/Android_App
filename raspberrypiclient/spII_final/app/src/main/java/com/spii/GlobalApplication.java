@@ -9,6 +9,8 @@ import android.os.Handler;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -37,6 +39,7 @@ public class GlobalApplication extends Application {
         r = false; // true if moving r
         prev_instr = "done";
 
+
         Client client = new Client(getIP(),getPort());
         client.start();
     }
@@ -62,14 +65,18 @@ public class GlobalApplication extends Application {
     public static int getPort(){
         return port;
     }
-    public static void sendInstr(String instruction){
+    public static void sendInstr(String instruction) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String action = instrLogic(instruction);
         //can do current instr
-        client.sendIt(action);
+        Method m = Client.class.getDeclaredMethod("sendIt", String.class);
+        m.setAccessible(true);
+        m.invoke(client, instruction);
     }
 
-    public static void disconnect(){
-        client.closeConnection();
+    public static void disconnect() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method m = Client.class.getDeclaredMethod("closeConnection");
+        m.setAccessible(true);
+        m.invoke(client);
     }
 
     public static void showErrorsMessages(String error) {
@@ -97,7 +104,7 @@ send instr until let go then send "done"
             if(!curr_instr.equals("done")){
                 if(curr_instr.contains("done")){
                     curr_instr = curr_instr.replace("done", "");
-                    prev_instr += curr_instr;
+                    prev_instr = prev_instr.replace(curr_instr,"");
                 }else prev_instr += curr_instr;
             }else prev_instr += curr_instr;
         }
@@ -106,14 +113,14 @@ send instr until let go then send "done"
 }
 /////////////// client thread ////////////////////////////
 class Client extends Thread {
-    public String ipaddress;
-    public int portnum;
+    private String ipaddress;
+    private int portnum;
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private Handler handler;
 
-    public Client(String ipaddress, int portnum) {
+    Client(String ipaddress, int portnum) {
         this.ipaddress = ipaddress;
         this.portnum = portnum;
     }
@@ -124,7 +131,7 @@ class Client extends Thread {
         connectToServer(ipaddress, portnum);
     }
 
-    public void sendIt(String msg){
+    private void sendIt(String msg){
         try{
             out.flush();
             out.writeObject(msg);
@@ -138,7 +145,7 @@ class Client extends Thread {
         }
     }
 
-    public void connectToServer(String ip, int port) {
+    private void connectToServer(String ip, int port) {
         try {
             socket = new Socket(InetAddress.getByName(ip), port);
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -154,7 +161,7 @@ class Client extends Thread {
         }
 
     }
-    void closeConnection() {
+    private void closeConnection() {
         try {
             out.writeObject("close");
             out.close();
