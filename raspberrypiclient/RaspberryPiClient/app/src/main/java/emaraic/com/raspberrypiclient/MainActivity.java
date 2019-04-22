@@ -3,8 +3,8 @@ package emaraic.com.raspberrypiclient;
 import android.support.v7.app.AppCompatActivity;
 
 
+import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View.OnTouchListener;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,10 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -25,6 +26,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import emaraic.com.raspberrypiclient.R;
+
+import static emaraic.com.raspberrypiclient.GlobalApplication.makeToast;
 
 /**
  * @author Richard Bustamante
@@ -34,14 +37,15 @@ import emaraic.com.raspberrypiclient.R;
  */
 
 public class MainActivity extends AppCompatActivity {
-    private ToggleButton state;
     private ImageButton f;
     private ImageButton r;
     private ImageButton l;
     private EditText ip, port;
     private Button connect;
-    private ObjectOutputStream out;
+    private OutputStream out;
+//    private BufferedReader sIn;
     private Socket socket;
+    private InputStream sIn;
     private String ipaddress;
     private int portnum;
     private Pattern pattern;
@@ -64,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            state = (ToggleButton) findViewById(R.id.onoff);
             pattern = Pattern.compile(IPADDRESS_PATTERN);
             handler = new Handler();
             f = (ImageButton) findViewById(R.id.up);
@@ -98,11 +101,13 @@ public class MainActivity extends AppCompatActivity {
                                 throw new UnknownHostException(port + "is not a valid port number ");
                             Client client = new Client(ipaddress, portnum);
                             client.start();
+                            ClientListener listener = new ClientListener();
+                            listener.start();
                             Toast.makeText(MainActivity.this, "CONNECTED",
                                     Toast.LENGTH_LONG).show();
-
+//                            ass();
                             connect.setBackgroundColor(getResources().getColor(R.color.connected));
-                            state.setChecked(false);
+                            connect.setText("Connected");
                         } catch (UnknownHostException e) {
                             showErrorsMessages("Please enter a valid IP !! ");
                         } catch (NumberFormatException e) {
@@ -116,75 +121,99 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+            f.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    // Get touch action.
+                    int action = motionEvent.getAction();
+
+                    if(action == MotionEvent.ACTION_DOWN && connect.getText().toString().equalsIgnoreCase("Connected")) {
+                        // If pressed.
+//                    makeToast("forward sending");
+                        Log.d("Forward", "SENDING FORWARD");
+                        sendInstr("forward");
+                    }else if(action == MotionEvent.ACTION_UP && connect.getText().toString().equalsIgnoreCase("Connected")) {
+                        // If released.
+                    view.performClick();
+//                    makeToast("forward sent");
+                        Log.d("Forward", "FORWARD SENT");
+                        sendInstr("done");
+                    }
+                    return false;
+                }
+            });
             f.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!(state.isChecked())){
-                        Toast.makeText(MainActivity.this, "MOVE FORWARD",
-                                Toast.LENGTH_SHORT).show();
-                        lightOn(2);
+                    if(connect.getText().toString().equalsIgnoreCase("Connected")){
+                        makeToast("Forward");
+                        sendInstr("forward");
                     } else{
-                        Toast.makeText(MainActivity.this, "BUSY",
-                                Toast.LENGTH_SHORT).show();
+                        makeToast("Not Connected");
                     }
                 }
             });
-//            button.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    switch (event.getAction()) {
-//                        case MotionEvent.ACTION_DOWN: {
-//                            // Button is pressed
-//                            break;
-//                        }
-//                        case MotionEvent.ACTION_UP: {
-//                            // Button is not pressed
-//                        }
-//                    }
-//                    return true;
-//                }
-//            });
-
-            l.setOnClickListener(new View.OnClickListener() {
+            r.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View v) {
-                    if(!(state.isChecked())){
-                        Toast.makeText(MainActivity.this, "BUSY",
-                            Toast.LENGTH_SHORT).show();
-                    } else{
-                        Toast.makeText(MainActivity.this, "ADJUST LEFT",
-                                Toast.LENGTH_SHORT).show();
-                        lightOn(2);
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    // Get touch action.
+                    int action = motionEvent.getAction();
 
+                    if(action == MotionEvent.ACTION_DOWN && connect.getText().toString().equalsIgnoreCase("Connected")) {
+                        // If pressed.
+//                    makeToast("forward sending");
+                        Log.d("Right", "SENDING RIGHT");
+                        sendInstr("right");
+                    }else if(action == MotionEvent.ACTION_UP && connect.getText().toString().equalsIgnoreCase("Connected")) {
+                        // If released.
+                        view.performClick();
+//                    makeToast("forward sent");
+                        Log.d("Right", "RIGHT SENT");
+                        sendInstr("done");
                     }
+                    return false;
                 }
             });
-
             r.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!(state.isChecked())) {
-                        Toast.makeText(MainActivity.this, "BUSY",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(MainActivity.this, "ADJUST RIGHT",
-                                Toast.LENGTH_SHORT).show();
-                        lightOn(1);
+                    if(connect.getText().toString().equalsIgnoreCase("Connected")){
+                        makeToast("right");
+                        sendInstr("right");
+                    } else{
+                        makeToast("Right");
                     }
                 }
             });
+            l.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    // Get touch action.
+                    int action = motionEvent.getAction();
 
-            state.setOnClickListener(new View.OnClickListener() {
+                    if(action == MotionEvent.ACTION_DOWN && connect.getText().toString().equalsIgnoreCase("Connected")) {
+                        // If pressed.
+//                    makeToast("forward sending");
+                        Log.d("Left", "SENDING LEFT");
+                        sendInstr("left");
+                    }else if(action == MotionEvent.ACTION_UP && connect.getText().toString().equalsIgnoreCase("Connected")) {
+                        // If released.
+                        view.performClick();
+//                    makeToast("forward sent");
+                        Log.d("Left", "LEFT SENT");
+                        sendInstr("done");
+                    }
+                    return false;
+                }
+            });
+            l.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!(state.isChecked())){
-                        Toast.makeText(MainActivity.this, "STOPPED",
-                                Toast.LENGTH_SHORT).show();
-                        state.setChecked(false);
-                        lightOff(3);
-                    }
-                    else{
-                        state.setChecked(false);
+                    if(connect.getText().toString().equalsIgnoreCase("Connected")){
+                        makeToast("left");
+                        sendInstr("left");
+                    } else{
+                        makeToast("Not Connected");
                     }
                 }
             });
@@ -193,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void closeConnection() {
         try {
-            out.writeObject("close");
+            out.write("close".getBytes("UTF-8"));
             out.close();
             socket.close();
         } catch (IOException ex) {
@@ -209,26 +238,6 @@ public class MainActivity extends AppCompatActivity {
         closeConnection();
     }
 
-    public boolean checkOn(int num){
-        if (num ==1){
-            if(l.isPressed() || r.isPressed()){
-                return false;
-            }
-        }
-        else if (num == 2){
-            if (f.isPressed() || r.isPressed()){
-                return false;
-            }
-        }
-        else if (num == 3){
-            if(f.isPressed() || l.isPressed()){
-                return false;
-            }
-        }
-        return true;
-    }
-
-
     void changeButtonState(boolean state) {
         f.setPressed(state);
         r.setPressed(state);
@@ -236,27 +245,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     ////////////////////// light related methods /////////////
-    void lightOn(int lednum) {
+    void sendInstr(String instr) {
         try {
-            out.writeObject(lednum + "1");
-            out.flush();
-            out.writeObject("end");
+            out.write(instr.getBytes("UTF-8"));
+//            out.flush();
+//            out.write("end".getBytes("UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
             showErrorsMessages("Error while sending command!!");
         }
     }
 
-    void lightOff(int lednum) {
+    void ass() {
         try {
-            out.writeObject(lednum + "0");
+            Log.d("ASS : ", "WE ARE IN THE ASS!");
+//            Log.d("ASS : ", kappa);
+            out.write("Connected".getBytes("UTF-8"));
             out.flush();
-            out.writeObject("end");
+//            out.write("end".getBytes("UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
+            showErrorsMessages("Error while sending command!!");
         }
     }
-
 
     void showErrorsMessages(String error) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
@@ -268,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////// client thread ////////////////////////////
     private class Client extends Thread {
         private String ipaddress;
@@ -283,31 +294,58 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             super.run();
             connectToServer(ipaddress, portnum);
-
         }
-
 
         private void connectToServer(String ip, int port) {
 
             try {
                 socket = new Socket(InetAddress.getByName(ip), port);
-                out = new ObjectOutputStream(socket.getOutputStream());
+                out = socket.getOutputStream();
                 out.flush();
-                handler.post(new Runnable() {
-                    public void run() {
-                        connect.setText("Connect");
-                    }
-                });
+                Log.d("INPUTTTT : ", "we are going to listener");
+                Log.d("INPUTTTT : ", "Starting listener");
+                ass();
             } catch (IOException e) {
                 e.printStackTrace();
-                handler.post(new Runnable() {
-                    public void run() {
-                        showErrorsMessages("Unknown host!!");
-                    }
-                });
             }
 
         }
 
     }//end of client class
+
+    public class ClientListener extends Thread{
+        private volatile boolean cancelled = false;
+        private String msg = "";
+
+        @Override
+        public void run() {
+            while (!cancelled) {
+                try {
+//                    socket = new Socket(InetAddress.getByName(ipaddress), portnum);
+                    sIn = socket.getInputStream();
+                    BufferedReader isr = new BufferedReader(new InputStreamReader(sIn, "UTF8"));
+                    Log.d("IN TRY : ", isr.readLine());
+                    while((msg = isr.readLine()) != null){
+                        System.out.println(msg);
+                        Log.d("INPUTTTT : ", msg);
+                        if(msg.equalsIgnoreCase("Disconnecting")){
+                            cancel();
+                            break;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void cancel()
+        {
+            cancelled = true;
+        }
+
+        public boolean isCancelled() {
+            return cancelled;
+        }
+    }
 }

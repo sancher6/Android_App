@@ -23,12 +23,13 @@
         android:id="@+id/ip"
         android:layout_width="322dp"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/port"
         android:layout_alignLeft="@+id/port"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/port"
         android:layout_gravity="center_horizontal"
+        android:autofillHints="@string/ip"
         android:hint="@string/ip"
-        android:autofillHints="@string/ip"/>
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/port"
@@ -51,7 +52,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:text="@string/connect"
-        android:background="@drawable/button_selector"/>
+        android:onClick="onClick"/>
 
     <ImageButton
         android:id="@+id/up"

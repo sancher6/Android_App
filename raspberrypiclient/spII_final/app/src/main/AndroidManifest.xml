@@ -20,5 +20,6 @@
             </intent-filter>
         </activity>
     </application>
+        android:name="com.spii.GlobalApplication">
 
 </manifest>

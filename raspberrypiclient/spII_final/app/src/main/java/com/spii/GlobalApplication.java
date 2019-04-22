@@ -3,45 +3,43 @@ package com.spii;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 import android.os.Handler;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class GlobalApplication extends Application {
 
     private static Context appContext;
-    private static Socket socket;
     private static String prev_instr;
-    private static boolean f; // true if moving f
-    private static boolean b; // true if moving b
-    private static boolean l; // true if moving l
-    private static boolean r; // true if moving r
 
     public static String ipaddr;
     public static int port;
     public static Client client;
+    private static Socket socket;
 
     @Override
     public void onCreate() {
         super.onCreate();
         appContext = getApplicationContext();
-
-        f = false; // true if moving f
-        b = false; // true if moving b
-        l = false; // true if moving l
-        r = false; // true if moving r
-        prev_instr = "done";
-
-
-        Client client = new Client(getIP(),getPort());
-        client.start();
     }
     public static Context getAppContext() {
         return appContext;
@@ -52,31 +50,48 @@ public class GlobalApplication extends Application {
                 Toast.LENGTH_SHORT).show();
     }
 
-    public static void setIP(String ip){
+    public static void makeClient(String ip, int portnum){
         ipaddr = ip;
+        port = portnum;
+        prev_instr = "";
+        client = new Client(ipaddr, port);
+//        socket = client.getSocket();
+        client.start();
+        prev_instr = "Connected";
     }
-    public static void setPort(int ports) {
-        port = ports;
-    }
+    public static void sendInstr(String instruction){
+        Log.d("sendInstr","In method send Instr");
 
-    public static String getIP(){
-        return ipaddr;
-    }
-    public static int getPort(){
-        return port;
-    }
-    public static void sendInstr(String instruction) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String action = instrLogic(instruction);
+
+        Log.d("sendInstr","instruction: " + instruction);
         //can do current instr
-        Method m = Client.class.getDeclaredMethod("sendIt", String.class);
-        m.setAccessible(true);
-        m.invoke(client, instruction);
+        try{
+            Method m = Client.class.getDeclaredMethod("sendIt",String.class);
+            m.setAccessible(true);
+            m.invoke(client, action);
+            prev_instr = action;
+        } catch (NoSuchMethodException e){
+            e.printStackTrace();
+        }catch (InvocationTargetException e){
+            e.getCause();
+        }catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void disconnect() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = Client.class.getDeclaredMethod("closeConnection");
-        m.setAccessible(true);
-        m.invoke(client);
+    public static void disconnect(){
+        try{
+            Method m = Client.class.getDeclaredMethod("closeConnection", Socket.class);
+            m.setAccessible(true);
+            m.invoke(client, socket);
+        } catch (NoSuchMethodException e){
+            e.printStackTrace();
+        }catch (InvocationTargetException e){
+            e.getCause();
+        }catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void showErrorsMessages(String error) {
@@ -84,30 +99,21 @@ public class GlobalApplication extends Application {
         dialog.setTitle("Error!! ").setMessage(error).setNeutralButton("OK", null).create().show();
     }
 
-/*
-Button Press Action:
-send instr, "done"
-
-Button Hold Action:
-send instr until let go then send "done"
- */
-    //test 1: prev = f cur = f out = f
-    //test 1: prev = b cur = f out = f
-    //test 1: prev = l cur = f out = fl
-    //test 1: prev = r cur = f out = fr
-    //test 1: prev = fl cur = f out = f
-    //test 1: prev = fr cur = f out = f
-
     public static String instrLogic(String curr_instr){
-        if(prev_instr.equals("done"))return curr_instr;
+        //not doing any instr rn send it
+        Log.d("instrLogic", "doing logic");
+        if(prev_instr.equalsIgnoreCase("Connected"))return curr_instr;
         else{
+            //doing something, check that we are not stopping
             if(!curr_instr.equals("done")){
+                //check if we are stopping some action
                 if(curr_instr.contains("done")){
                     curr_instr = curr_instr.replace("done", "");
                     prev_instr = prev_instr.replace(curr_instr,"");
                 }else prev_instr += curr_instr;
-            }else prev_instr += curr_instr;
+            }else prev_instr = curr_instr;
         }
+        Log.d("Leaving instrLogic", "Returning: " + prev_instr);
         return prev_instr;
     }
 }
@@ -115,14 +121,17 @@ send instr until let go then send "done"
 class Client extends Thread {
     private String ipaddress;
     private int portnum;
-    private Socket socket;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
+//    private InputStream in;
+    private OutputStream out = null;
+//    private BufferedReader in;
+//    private PrintWriter out;
     private Handler handler;
+    private Socket socket;
+    private Socket temp;
 
-    Client(String ipaddress, int portnum) {
-        this.ipaddress = ipaddress;
-        this.portnum = portnum;
+    Client(String ip, int port) {
+        this.ipaddress = ip;
+        this.portnum = port;
     }
 
     @Override
@@ -131,10 +140,16 @@ class Client extends Thread {
         connectToServer(ipaddress, portnum);
     }
 
+    public Socket getSocket(){
+        return this.socket;
+    }
+
     private void sendIt(String msg){
         try{
-            out.flush();
-            out.writeObject(msg);
+            Log.d("SENNNDDD ITTTTTTT", "SENDING");
+//            this.out.flush();
+            out.write(msg.getBytes("UTF-8"));
+//            this.out.write(msg);
         } catch (IOException e) {
             e.printStackTrace();
             handler.post(new Runnable() {
@@ -147,10 +162,19 @@ class Client extends Thread {
 
     private void connectToServer(String ip, int port) {
         try {
+            Log.d("CONNECTING", "Sending Connect instruction");
             socket = new Socket(InetAddress.getByName(ip), port);
-            out = new ObjectOutputStream(socket.getOutputStream());
+//            socket.bind(new InetSocketAddress(ip, port));
+            out = socket.getOutputStream();
+            out.write("Connected".getBytes("UTF-8"));
+//            this.out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"),true);
+//            this.out.write("Connected");
             out.flush();
-            in = new ObjectInputStream(socket.getInputStream());
+//            this.in = socket.getInputStream();
+//            this.in = new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));
+//            listenToServer();
+
+//            in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
             handler.post(new Runnable() {
@@ -159,14 +183,40 @@ class Client extends Thread {
                 }
             });
         }
-
     }
-    private void closeConnection() {
+
+//    private void listenToServer(){
+//        try {
+////            InputStreamReader isr = new InputStreamReader(in, "UTF8");
+//            String readline = "";
+////            int data = isr.read();
+////            while(data != -1){
+////                Log.d("READING IN : ","" + (char) data);
+////                data = isr.read();
+////            }
+////            isr.close();
+//            while((readline = in.readLine()) != null){
+//                Log.d("MSG FROM PI : ", in.readLine());
+//                if(in.readLine().equalsIgnoreCase("Hello Friend")) break;
+//                else if(in.readLine().equalsIgnoreCase("Goodbye Friend") )break;
+//            }
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+    private void closeConnection(Socket s) {
         try {
-            out.writeObject("close");
+            Log.d("DISCONNECTING", "Sending Disconnect instruction");
+//            out = socket.getOutputStream();
+            out.write("Disconnect".getBytes("UTF-8"));
+//            listenToServer();
+//            out.flush();
+//            out.write("Disconnect");
             out.close();
-            in.close();
-            socket.close();
+            s.close();
         } catch (IOException ex) {
             ex.printStackTrace();
             GlobalApplication.showErrorsMessages(ex.getMessage());
