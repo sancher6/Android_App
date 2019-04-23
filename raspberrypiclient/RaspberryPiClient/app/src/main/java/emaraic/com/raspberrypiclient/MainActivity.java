@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
                                 throw new UnknownHostException(port + "is not a valid port number ");
                             Client client = new Client(ipaddress, portnum);
                             client.start();
-                            ClientListener listener = new ClientListener();
-                            listener.start();
+//                            ClientListener listener = new ClientListener();
+//                            listener.start();
                             Toast.makeText(MainActivity.this, "CONNECTED",
                                     Toast.LENGTH_LONG).show();
 //                            ass();
@@ -313,39 +313,39 @@ public class MainActivity extends AppCompatActivity {
 
     }//end of client class
 
-    public class ClientListener extends Thread{
-        private volatile boolean cancelled = false;
-        private String msg = "";
-
-        @Override
-        public void run() {
-            while (!cancelled) {
-                try {
-//                    socket = new Socket(InetAddress.getByName(ipaddress), portnum);
-                    sIn = socket.getInputStream();
-                    BufferedReader isr = new BufferedReader(new InputStreamReader(sIn, "UTF8"));
-                    Log.d("IN TRY : ", isr.readLine());
-                    while((msg = isr.readLine()) != null){
-                        System.out.println(msg);
-                        Log.d("INPUTTTT : ", msg);
-                        if(msg.equalsIgnoreCase("Disconnecting")){
-                            cancel();
-                            break;
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        public void cancel()
-        {
-            cancelled = true;
-        }
-
-        public boolean isCancelled() {
-            return cancelled;
-        }
-    }
+//    public class ClientListener extends Thread{
+//        private volatile boolean cancelled = false;
+//        private String msg = "";
+//
+//        @Override
+//        public void run() {
+//            while (!cancelled) {
+//                try {
+////                    socket = new Socket(InetAddress.getByName(ipaddress), portnum);
+//                    sIn = socket.getInputStream();
+//                    BufferedReader isr = new BufferedReader(new InputStreamReader(sIn, "UTF8"));
+//                    Log.d("IN TRY : ", isr.readLine());
+//                    while((msg = isr.readLine()) != null){
+//                        System.out.println(msg);
+//                        Log.d("INPUTTTT : ", msg);
+//                        if(msg.equalsIgnoreCase("Disconnecting")){
+//                            cancel();
+//                            break;
+//                        }
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//        public void cancel()
+//        {
+//            cancelled = true;
+//        }
+//
+//        public boolean isCancelled() {
+//            return cancelled;
+//        }
+//    }
 }
