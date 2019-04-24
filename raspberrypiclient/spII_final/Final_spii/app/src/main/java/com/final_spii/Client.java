@@ -1,35 +1,37 @@
-import java.util.Scanner;
+package com.final_spii;
+
+import android.util.Log;
+
 import java.io.*;
 import java.net.*;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class EchoClient {
+import static com.final_spii.GlobalApplication.makeToast;
 
+public class Client {
+    //variables for each new Client
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-    private Scanner reader; 
 
+    //opens a socket and input and output streams for connection
     public void startConnection(String ip, int port) {
         try {
             clientSocket = new Socket(ip, port);
             out = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream(),"UTF-8"), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(),"UTF-8"));
-            reader = new Scanner(System.in); 
-            String inputLine = reader.nextLine();
-            String response = sendMessage(inputLine); 
-            while(!(response.equals("exit"))){
-                System.out.println("Server Says :" + response); 
-                inputLine = reader.nextLine();
-                response = sendMessage(inputLine); 
+            String response = sendMessage("Connect");
+            while(!(response.equalsIgnoreCase("connected"))){
+                response = sendMessage("Connect");
             }
-            stopConnection(); 
+            makeToast("Connected");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            Log.d("Error",e.getMessage());
         }
     }
 
+    //sends an instruction
     public String sendMessage(String msg) {
         try {
             out.println(msg);
@@ -44,14 +46,8 @@ public class EchoClient {
             in.close();
             out.close();
             clientSocket.close();
-            reader.close(); 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            Log.d("Error",e.getMessage());
         }
-
-    }
-    public static void main(String[] args) {
-        EchoClient client = new EchoClient();
-        client.startConnection("0.0.0.0",1986);        
     }
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".SecondaryActivity">
 
     <Button
@@ -18,33 +19,35 @@
         android:id="@+id/set_instructions"
         android:layout_width="165dp"
         android:layout_height="58dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/remote_control"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="142dp"
+        android:layout_marginTop="58dp"
         android:text="@string/set_instructions" />
 
     <Button
         android:id="@+id/previous_runs"
         android:layout_width="165dp"
         android:layout_height="58dp"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/set_instructions"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp"
         android:text="@string/previous_runs" />
 
     <Button
         android:id="@+id/disconnect"
         android:layout_width="165dp"
         android:layout_height="58dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/previous_runs"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="141dp"
+        android:layout_marginTop="58dp"
         android:text="@string/disconnect" />
 
     <Button
         android:id="@+id/more"
         android:layout_width="165dp"
         android:layout_height="58dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/disconnect"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="55dp"
+        android:layout_marginTop="58dp"
         android:text="@string/more" />
 </RelativeLayout>

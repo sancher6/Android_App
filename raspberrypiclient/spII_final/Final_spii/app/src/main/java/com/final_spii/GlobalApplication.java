@@ -2,6 +2,7 @@ package com.final_spii;
 
 import android.app.Application;
 import android.content.Context;
+import android.widget.Toast;
 
 public class GlobalApplication extends Application {
 
@@ -18,5 +19,10 @@ public class GlobalApplication extends Application {
 
     public static Context getAppContext() {
         return appContext;
+    }
+
+    public static void makeToast(String Butter){
+        Toast.makeText(getAppContext(), Butter,
+                Toast.LENGTH_SHORT).show();
     }
 }

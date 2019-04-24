@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private Button Connect;
-    private Pattern pattern;
     private EditText ip,port;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

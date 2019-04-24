@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context="com.final_spii.remote">
 
     <WebView
@@ -12,7 +13,7 @@
         android:layout_height="match_parent" />
 
     <Button
-        android:id="@+id/POWER"
+        android:id="@+id/stop"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_alignParentLeft="true"
@@ -30,7 +31,7 @@
         android:background="@color/RED" />
 
     <ImageButton
-        android:id="@+id/upr"
+        android:id="@+id/forward"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
@@ -44,7 +45,7 @@
         android:background="@drawable/rounded"/>
 
     <ImageButton
-        android:id="@+id/rightr"
+        android:id="@+id/right"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
@@ -58,7 +59,7 @@
         android:background="@drawable/rounded"/>
 
     <ImageButton
-        android:id="@+id/leftr"
+        android:id="@+id/left"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
@@ -72,7 +73,7 @@
         android:background="@drawable/rounded"/>
 
     <ImageButton
-        android:id="@+id/backr"
+        android:id="@+id/back"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
