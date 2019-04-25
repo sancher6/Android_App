@@ -19,4 +19,10 @@
     <string name="right">R</string>
     <string name="back">B</string>
     <string name="OFF">stop</string>
+
+    <string name="enter_dist">Enter Distance</string>
+    <string name="run_name">Enter a Name for this Run</string>
+    <string name="action">Action</string>
+    <string name="dist">Distance</string>
+    <string name="save">Save</string>
 </resources>

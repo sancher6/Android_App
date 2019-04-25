@@ -1,7 +1,7 @@
 import socket
 
 HOST = "0.0.0.0"
-PORT = 1986
+PORT = 1980
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print('Socket created')
 
