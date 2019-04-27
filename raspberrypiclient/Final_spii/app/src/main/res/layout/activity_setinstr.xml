@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".SetInstructions">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:lines="2"
+        android:maxLines="4"
+        android:text="@string/set_instructions"
+        android:gravity="center"
+        android:textSize="32sp"
+        android:textColor="@color/Blue" />
+
+    <Spinner
+        android:id="@+id/list"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="100dp"/>
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="20sp"
+        android:text="@string/add" />
+
+    <ListView
+        android:id="@+id/listV"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:layout_centerVertical="true"/>
+
+    <EditText
+        android:id="@+id/dist"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
+        android:hint="@string/dist"
+        android:inputType="numberSigned" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="313dp"
+        android:layout_height="57dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="150dp"
+        android:hint="@string/run_name"
+        android:inputType="text" />
+
+
+    <TextView
+        android:id="@+id/instr_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="180dp"
+        android:text="@string/instr"
+        android:textSize="20sp"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="313dp"
+        android:layout_height="75dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="50dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:text="@string/save" />
+
+</RelativeLayout>
