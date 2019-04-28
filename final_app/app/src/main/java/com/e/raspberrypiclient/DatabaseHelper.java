@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "NAME TEXT UNIQUE," + "INSTRUCTIONS TEXT)";
+                + "NAME TEXT, INSTRUCTIONS TEXT)";
         db.execSQL(createTable);
     }
 
@@ -28,10 +28,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addInstruction(String item1, String name){
+    public boolean addData(String name, String instructions){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL3,item1);
+        contentValues.put(COL2,name);
+        contentValues.put(COL3,instructions);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 
@@ -42,10 +43,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getNamesContents(){
+    public Cursor getData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME,null);
 
         return data;
+    }
+
+    public boolean findName(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME,null);
+
+        while(data.moveToNext()){
+            if(name.equals(data.getString(1))){
+                data.close();
+                return false;
+            }
+        }
+        data.close();
+        return true;
+    }
+
+    public boolean nameReplace(String id, String name, String instructions){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COL1,id);
+        contentValues.put(COL2,name);
+        contentValues.put(COL3,instructions);
+
+        long result = db.update(TABLE_NAME, contentValues, "ID = ?", new String[] {id});
+
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+
     }
 }
