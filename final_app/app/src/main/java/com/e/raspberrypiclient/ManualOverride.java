@@ -1,8 +1,10 @@
 package com.e.raspberrypiclient;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.NetworkOnMainThreadException;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,8 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import static com.e.raspberrypiclient.GlobalApplication.makeToast;
+
 public class ManualOverride extends AppCompatActivity {
     private WebView webView;
     private ImageButton f;
@@ -36,7 +40,7 @@ public class ManualOverride extends AppCompatActivity {
     private BufferedReader in;
     private Client client;
     private String TAG = "MANUAL OVERRIDE";
-
+    AlertDialog.Builder builder;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -63,6 +67,12 @@ public class ManualOverride extends AppCompatActivity {
         client = new Client("192.168.4.1",4957);
         Log.d(TAG, "Client Created");
         client.start();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        client.setToReturn("m");
 
         webView = findViewById(R.id.webview);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -78,6 +88,25 @@ public class ManualOverride extends AppCompatActivity {
         dc = (Button)findViewById(R.id.dc);
         off = (Button)findViewById(R.id.off);
 
+
+        builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setMessage("ARE YOU SURE YOU WANT TO POWER OFF????");
+        builder.setPositiveButton("yes, fuck Brendan", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                Log.d("Command : ", "DISCONNECT  BUTTON PRESSED");
+//                client.setToReturn("Off");
+            }
+        });
+        builder.setNegativeButton("No.", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+                makeToast("Cancelling");
+            }
+        });
+
+        final AlertDialog alertDialog = builder.create();
         //forward Held
         f.setOnTouchListener(new View.OnTouchListener(){
             @Override
@@ -160,8 +189,7 @@ public class ManualOverride extends AppCompatActivity {
         off.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Command : ", "DISCONNECT  BUTTON PRESSED");
-                client.setToReturn("Off");
+                alertDialog.show();
             }
         });
     }

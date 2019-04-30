@@ -1,5 +1,6 @@
 package com.e.raspberrypiclient;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -80,8 +81,8 @@ public class SecondaryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(" : ", "MORE BUTTON PRESSED");
-                Intent intent = new Intent(SecondaryActivity.this, ManualOverride.class);
-                startActivity(intent);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://engprojects.tcnj.edu/rccar19/the-team/"));
+                startActivity(browserIntent);
             }
         });
     }
