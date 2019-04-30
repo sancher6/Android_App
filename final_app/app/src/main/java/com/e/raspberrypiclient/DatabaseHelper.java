@@ -51,17 +51,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean findName(String name){
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME,null);
 
         while(data.moveToNext()){
+            //name is in database return false
             if(name.equals(data.getString(1))){
                 data.close();
                 return false;
             }
         }
+        //name not in database, return true;
         data.close();
         return true;
+    }
+
+    public String getId(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME,null);
+        String temp = "";
+
+        while(data.moveToNext()){
+            if(name.equals(data.getString(1))){
+                temp = data.getString(0);
+                data.close();
+                return temp;
+            }
+        }
+        return temp;
     }
 
     public boolean nameReplace(String id, String name, String instructions){
@@ -80,5 +97,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
 
+    }
+
+    public String getInstr(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE_NAME,null);
+
+        String temp = "";
+
+        while(data.moveToNext()){
+            if(name.equals(data.getString(1))){
+                temp = data.getString(2);
+                data.close();
+                return temp;
+            }
+        }
+        return temp;
+    }
+    public Integer deleteData(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, "ID = ?", new String[] {id});
     }
 }

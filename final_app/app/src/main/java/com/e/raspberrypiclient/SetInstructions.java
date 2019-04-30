@@ -44,7 +44,7 @@ public class SetInstructions extends AppCompatActivity {
         instrlist.setAdapter(stringArrayAdapter);
 
 //      THIS IS FOR THE SPINNER//////////////////////////////////////////////////////////////////////
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(SetInstructions.this,
+        final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(SetInstructions.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.instructions));
 
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -64,6 +64,7 @@ public class SetInstructions extends AppCompatActivity {
                     } else{
                         boolean namecheck = myDB.findName(name.getText().toString());
 
+                        //name is not in database
                         if(namecheck){
                             boolean insertData = myDB.addData(name.getText().toString(), getAll(stringArrayList));
 
@@ -72,8 +73,10 @@ public class SetInstructions extends AppCompatActivity {
                             } else{
                                 makeToast("Error Saving Run");
                             }
+                        //name is in database
                         } else{
-                            boolean replace = myDB.nameReplace("1",name.getText().toString(), getAll(stringArrayList));
+                            String temp = myDB.getId(name.getText().toString());
+                            boolean replace = myDB.nameReplace(temp,name.getText().toString(), getAll(stringArrayList));
                             makeToast("Name already exists, overwriting");
                         }
                     }
@@ -84,20 +87,39 @@ public class SetInstructions extends AppCompatActivity {
         add_instr.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(distance.getText().toString().length() < 1){
-                    makeToast("Must enter a valid Distance!!");
-                }else{
-                    stringArrayList.add(instr_spinner.getSelectedItem().toString() + " " + distance.getText().toString());
-                    stringArrayAdapter.notifyDataSetChanged();
-                    distance.setText("");
-                }
+                boolean calCheck = myDB.findName("Calibration(distance)") || myDB.findName("Calibration(angle)");
+
+                //calibration found
+                if(!calCheck){
+                    if(distance.getText().toString().length() < 1){
+                        makeToast("Must enter a valid Distance!!");
+                    }else{
+                        makeToast("Calibrating Instruction");
+                        String textInt = distance.getText().toString();
+                        int distInt = Integer.parseInt(textInt);
+                        String instr = instr_spinner.getSelectedItem().toString();
+                        if(instr.equalsIgnoreCase("forward") || instr.equalsIgnoreCase("backward")){
+                            //get distance calibration
+                            textInt = myDB.getInstr("Calibration(distance)");
+                            int temp = Integer.parseInt(textInt);
+                            textInt = String.valueOf(distInt*temp);
+                        }else{
+                            textInt = myDB.getInstr("Calibration(angle)");
+                            int temp = Integer.parseInt(textInt);
+                            textInt = String.valueOf(distInt*temp);
+                        }
+                        stringArrayList.add(instr + " " + textInt);
+                        stringArrayAdapter.notifyDataSetChanged();
+                        distance.setText("");
+                    }
+                }else{makeToast("MUST CALIBRATE FIRST!");}
             }
         });
     }
     public String getAll(ArrayList<String> instructions){
         String temp = "";
         for(int i = 0; i < instructions.size(); i++){
-            temp += instructions.get(i);
+            temp = temp + instructions.get(i)+ " ";
         }
         return temp;
     }

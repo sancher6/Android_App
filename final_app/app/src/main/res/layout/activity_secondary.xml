@@ -13,16 +13,25 @@
         android:layout_height="58dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="25dp"
         android:text="@string/remote_control" />
+
+    <Button
+        android:id="@+id/calibrate"
+        android:layout_width="165dp"
+        android:layout_height="58dp"
+        android:layout_below="@+id/remote_control"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="@string/calibrate" />
 
     <Button
         android:id="@+id/set_instructions"
         android:layout_width="165dp"
         android:layout_height="58dp"
-        android:layout_below="@+id/remote_control"
+        android:layout_below="@+id/calibrate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="25dp"
         android:text="@string/set_instructions" />
 
     <Button
@@ -31,7 +40,7 @@
         android:layout_height="58dp"
         android:layout_below="@+id/set_instructions"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="25dp"
         android:text="@string/previous_runs" />
 
     <Button
@@ -40,7 +49,7 @@
         android:layout_height="58dp"
         android:layout_below="@+id/previous_runs"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="25dp"
         android:text="@string/disconnect" />
 
     <Button
@@ -49,7 +58,7 @@
         android:layout_height="58dp"
         android:layout_below="@+id/disconnect"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="25dp"
         android:text="@string/more" />
 
 </RelativeLayout>

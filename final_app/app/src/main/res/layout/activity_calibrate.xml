@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Calibrate">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:lines="2"
+        android:text="@string/calibrate"
+        android:gravity="center"
+        android:textSize="32sp"
+        android:textColor="@color/Blue" />
+
+    <Spinner
+        android:id="@+id/options"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="100dp" />
+
+    <EditText
+        android:id="@+id/time"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/options"
+        android:layout_marginTop="40dp"
+        android:hint="@string/Time"
+        android:inputType="numberSigned" />
+
+    <Button
+        android:id="@+id/Start"
+        android:layout_width="100dp"
+        android:layout_height="58dp"
+        android:layout_below="@+id/time"
+        android:layout_marginTop="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:text="@string/start" />
+
+    <Button
+        android:id="@+id/Stop"
+        android:layout_width="100dp"
+        android:layout_height="58dp"
+        android:layout_below="@+id/time"
+        android:layout_marginTop="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:text="@string/stop" />
+
+    <Button
+        android:id="@+id/Save"
+        android:layout_width="165dp"
+        android:layout_height="58dp"
+        android:layout_below="@+id/Start"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/save" />
+
+</RelativeLayout>

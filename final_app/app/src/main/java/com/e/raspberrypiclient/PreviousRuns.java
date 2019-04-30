@@ -11,7 +11,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.e.raspberrypiclient.GlobalApplication.makeToast;
 
@@ -19,6 +18,9 @@ public class PreviousRuns extends AppCompatActivity {
     private static final String TAG = "Previous Runs Activity";
     DatabaseHelper mDatabaseHelper;
     private ListView mListView;
+    private ArrayList<String> stringArrayList;
+    private ArrayAdapter<String> stringArrayAdapter;
+    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,9 @@ public class PreviousRuns extends AppCompatActivity {
         setContentView(R.layout.activity_previous_runs);
 
         mListView = (ListView)findViewById(R.id.list);
+
+        mListView.setAdapter(stringArrayAdapter);
+
         mDatabaseHelper = new DatabaseHelper(this);
         final String[] instr = getResources().getStringArray(R.array.instructions);
 
@@ -34,7 +39,25 @@ public class PreviousRuns extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                makeToast(mListView.getAdapter().getItem(position).toString());
+                boolean calCheck = mDatabaseHelper.findName("Calibration(distance)") || mDatabaseHelper.findName("Calibration(angle)");
+
+                //calibration found
+                if(!calCheck){
+                    String longInstr = mDatabaseHelper.getInstr(mListView.getAdapter().getItem(position).toString());
+                    makeToast("Selected: " + mListView.getAdapter().getItem(position).toString());
+                } else{makeToast("MUST CALIBRATE FIRST!");}
+            }
+        });
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //delete item
+                mDatabaseHelper.deleteData(mDatabaseHelper.getId(mListView.getAdapter().getItem(position).toString()));
+                stringArrayAdapter.remove(mListView.getAdapter().getItem(position).toString());
+                stringArrayAdapter.notifyDataSetChanged();
+                makeToast("Deleted");
+                return false;
             }
         });
     }
@@ -45,17 +68,26 @@ public class PreviousRuns extends AppCompatActivity {
         //get the data and append to a list
         Cursor data = mDatabaseHelper.getData();
 
-        ArrayList<String> listData = new ArrayList<>();
+        stringArrayList = new ArrayList<>();
         if(data.getCount() == 0){
             makeToast("Database is Empty!");
         } else{
             while(data.moveToNext()){
                 //get data from column 1 added to list
-                listData.add(data.getString(1));
+                stringArrayList.add(data.getString(1));
+
                 //create the list adapter and set the adapter
-                ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
-                mListView.setAdapter(adapter);
+                stringArrayAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                        android.R.layout.simple_list_item_1, stringArrayList);
+                mListView.setAdapter(stringArrayAdapter);
             }
         }
+    }
+    public String getAll(ArrayList<String> instructions){
+        String temp = "";
+        for(int i = 0; i < instructions.size(); i++){
+            temp = temp + instructions.get(i)+ " ";
+        }
+        return temp;
     }
 }

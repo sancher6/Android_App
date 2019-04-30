@@ -15,6 +15,7 @@ public class SecondaryActivity extends AppCompatActivity {
     private Button previous_runs;
     private Button dc;
     private Button more;
+    private Button calibrate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,17 +23,27 @@ public class SecondaryActivity extends AppCompatActivity {
 
         //Buttons are all set
         remote = (Button)findViewById(R.id.remote_control);
+        calibrate = (Button)findViewById(R.id.calibrate);
         set_instructions = (Button)findViewById(R.id.set_instructions);
         previous_runs = (Button)findViewById(R.id.previous_runs);
         dc = (Button)findViewById(R.id.disconnect);
         more = (Button)findViewById(R.id.more);
 
-        //turn off pi
+        //onClickListeners for Buttons
         remote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("Remote Control : ", "REMOTE CONTROL BUTTON PRESSED");
                 Intent intent = new Intent(SecondaryActivity.this, ManualOverride.class);
+                startActivity(intent);
+            }
+        });
+
+        calibrate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Calibrate : ", "CALIBRATE BUTTON PRESSED");
+                Intent intent = new Intent(SecondaryActivity.this, Calibrate.class);
                 startActivity(intent);
             }
         });
