@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 import static com.e.raspberrypiclient.GlobalApplication.makeToast;
+import static java.lang.Character.toLowerCase;
 
 public class SetInstructions extends AppCompatActivity {
     private DatabaseHelper myDB;
@@ -101,10 +102,12 @@ public class SetInstructions extends AppCompatActivity {
                         if(instr.equalsIgnoreCase("forward") || instr.equalsIgnoreCase("backward")){
                             //get distance calibration
                             textInt = myDB.getInstr("Calibration(distance)");
+                            textInt = textInt.replace("Forward ","");
                             int temp = Integer.parseInt(textInt);
                             textInt = String.valueOf(distInt*temp);
                         }else{
                             textInt = myDB.getInstr("Calibration(angle)");
+                            textInt = textInt.replace("Left ","");
                             int temp = Integer.parseInt(textInt);
                             textInt = String.valueOf(distInt*temp);
                         }
@@ -119,7 +122,8 @@ public class SetInstructions extends AppCompatActivity {
     public String getAll(ArrayList<String> instructions){
         String temp = "";
         for(int i = 0; i < instructions.size(); i++){
-            temp = temp + instructions.get(i)+ " ";
+            String[] splited = instructions.get(i).split("\\s+");
+            temp = temp + toLowerCase(splited[0].charAt(0))+ " " + splited[1]+" ";
         }
         return temp;
     }

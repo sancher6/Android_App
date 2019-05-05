@@ -1,5 +1,6 @@
 package com.e.raspberrypiclient;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ public class PreviousRuns extends AppCompatActivity {
     private ListView mListView;
     private ArrayList<String> stringArrayList;
     private ArrayAdapter<String> stringArrayAdapter;
-    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +39,20 @@ public class PreviousRuns extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 boolean calCheck = mDatabaseHelper.findName("Calibration(distance)") || mDatabaseHelper.findName("Calibration(angle)");
-
                 //calibration found
                 if(!calCheck){
                     String longInstr = mDatabaseHelper.getInstr(mListView.getAdapter().getItem(position).toString());
-                    makeToast("Selected: " + mListView.getAdapter().getItem(position).toString());
+//                    makeToast("Selected: " + mListView.getAdapter().getItem(position).toString());
+                    Intent i = new Intent(PreviousRuns.this, ManualOverride.class);
+                    Log.d(TAG,longInstr);
+                    i.putExtra("AUTO", longInstr);
+                    startActivity(i);
                 } else{makeToast("MUST CALIBRATE FIRST!");}
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
                 //delete item
                 mDatabaseHelper.deleteData(mDatabaseHelper.getId(mListView.getAdapter().getItem(position).toString()));
                 stringArrayAdapter.remove(mListView.getAdapter().getItem(position).toString());
@@ -64,7 +65,6 @@ public class PreviousRuns extends AppCompatActivity {
 
     private void populateListView(){
         Log.d(TAG, "populateListView: Displaying Data within the ListView");
-
         //get the data and append to a list
         Cursor data = mDatabaseHelper.getData();
 
@@ -83,11 +83,10 @@ public class PreviousRuns extends AppCompatActivity {
             }
         }
     }
-    public String getAll(ArrayList<String> instructions){
-        String temp = "";
-        for(int i = 0; i < instructions.size(); i++){
-            temp = temp + instructions.get(i)+ " ";
-        }
-        return temp;
+    @Override
+    public void onBackPressed(){
+//        Log.d("BACK BUTTON PRESSED ", "DISCONNECTING");
+        Intent intent = new Intent(PreviousRuns.this, SecondaryActivity.class);
+        startActivity(intent);
     }
 }

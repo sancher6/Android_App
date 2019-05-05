@@ -12,10 +12,6 @@ import android.util.Log;
 import static com.e.raspberrypiclient.GlobalApplication.makeToast;
 
 public class Client extends Thread{
-    //variables for each new Client
-//    private Socket clientSocket;
-//    private PrintWriter out;
-//    private BufferedReader in;
     private String ip;
     private int port;
     private OutputStreamWriter osw;
@@ -23,14 +19,10 @@ public class Client extends Thread{
     private String TAG = "CLIENT";
     private String toReturn;
     private String received;
+    private String previous;
     public Socket clientSocket;
     public boolean connect;
-//    Attempt 1: socket, pw, br created in manual override
-//    public Client(Socket socket, PrintWriter pw, BufferedReader br) {
-//        this.clientSocket = socket;
-//        this.out = pw;
-//        this.in = br;
-//    }
+    public boolean still;
 
     public Client(String ip, int port) {
         this.ip = ip;
@@ -45,71 +37,71 @@ public class Client extends Thread{
             osw = new OutputStreamWriter(clientSocket.getOutputStream(),"UTF-8");
             isr = new InputStreamReader(clientSocket.getInputStream(),"UTF-8");
             connect = false;
+            still= true;
+            previous = "";
         } catch (IOException e) {
-            e.printStackTrace();
+            disconnect();
         }
         PrintWriter out = new PrintWriter(osw, true);
         BufferedReader in = new BufferedReader(isr);
-//        out.println("Connect");
+//      Send Connect Instruction
         setToReturn("Connect");
         while(true){
             //ensure toReturn is set to the correct String
-            if(connect && toReturn.equalsIgnoreCase("Connect")){
+            if((connect && toReturn.equalsIgnoreCase("Connect"))){
                 //nothing
-//                Log.d(TAG,"STUCK AF");
             }else{
-//                Log.d(TAG,getToReturn()+" GET TO RETURN VALUE");
-                out.println(getToReturn());
-                try {
-//                    Log.d(TAG, "Waiting for line...");
-                    received = in.readLine();
-//                    Log.d(TAG, "Line received");
-                } catch (Exception e) {
-                    received = "Connect";
+                if(getToReturn().equalsIgnoreCase(previous)) {
+                }else{
+                    previous = toReturn;
+                    out.println(getToReturn());
+                    try {
+                        received = in.readLine();
+                    } catch (Exception e) {
+                        received = "Connect";
+                    }
+                    //            Log.d(TAG,"SERVER SAYS: " + received);
+                    if (received.equalsIgnoreCase("Disconnecting")) {
+//                        Log.d(TAG, "Closing Connection");
+                        try {
+                            out.close();
+                            in.close();
+                            clientSocket.close();
+                            connect = false;
+                        } catch (IOException e) {
+//                            Log.d("ERROR ", e.getMessage());
+                            disconnect();
+                        }
+                        break;
+                    } else if (received.equalsIgnoreCase("connected")) {
+                        connect = true;
+                    } else if (received.equalsIgnoreCase("off")) {
+                        connect = false;
+                        break;
+                    }
                 }
-//
-            }
-//            Log.d(TAG,"SERVER SAYS: " + received);
-            if (received.equalsIgnoreCase("Disconnecting")) {
-                Log.d(TAG, "Closing Connection");
-                try {
-                    out.close();
-                    in.close();
-                    clientSocket.close();
-                    connect = false;
-                } catch (IOException e) {
-                    Log.d("ERROR ", e.getMessage());
-                }
-                break;
-            }else if(received.equalsIgnoreCase("connected")){
-                connect = true;
-            }else if(received.equalsIgnoreCase("off")){
-                connect = false;
-                break;
-            }
-//            switch (received) {
-//                case "connected\n":
-//                    connect = true;
-//                case "Obstacle":
-////                    makeToast("OBSTACLE DETECTED");
-//                case "Disconnecting":
-//                    connect = false;
-////                    makeToast("DISCONNECTING");
-//                    break;
-//            }
-            received = "Connect";
-//            Log.d(TAG,Boolean.toString(connect));
 
+            }
         }
-//        Log.d(TAG, " WHAT THE ACTUAL FUCK ");
     }
 
     public void setToReturn(String message){
-//        Log.d(TAG,message+" Method setTOReturn ");
+//        Log.d(TAG,message);
         toReturn = message;
     }
     public String getToReturn(){
         return toReturn;
+    }
+
+    public void disconnect(){
+        try {
+            osw.close();
+            isr.close();
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        connect = false;
     }
 }
 

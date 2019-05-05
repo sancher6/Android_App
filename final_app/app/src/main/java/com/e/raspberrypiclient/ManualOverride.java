@@ -3,7 +3,6 @@ package com.e.raspberrypiclient;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.NetworkOnMainThreadException;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,14 +15,6 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.Socket;
-
 import static com.e.raspberrypiclient.GlobalApplication.makeToast;
 
 public class ManualOverride extends AppCompatActivity {
@@ -35,12 +26,9 @@ public class ManualOverride extends AppCompatActivity {
     private Button stop;
     private Button dc;
     private Button off;
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
     private Client client;
-    private String TAG = "MANUAL OVERRIDE";
     AlertDialog.Builder builder;
+    private String TAG = "MANUAL OVERRIDE";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -48,36 +36,40 @@ public class ManualOverride extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manual_override);
 
-        //Initialize the new Client for Manual Override
-        Log.d(TAG, "TRYING");
-
-        //create client variables
-//        try {
-//            clientSocket = new Socket("192.168.4.1",4957);
-//            out = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream(),"UTF-8"), true);
-//            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(),"UTF-8"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch(NetworkOnMainThreadException e){
-//            e.printStackTrace();
-//        }
-
-//        Log.d(TAG , "SUCCESSFUL");
-//        client = new Client(clientSocket, out, in);
-        client = new Client("192.168.4.1",4957);
-        Log.d(TAG, "Client Created");
-        client.start();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        client.setToReturn("m");
+        Intent in = getIntent();
+        Bundle bundle = in.getExtras();
 
         webView = findViewById(R.id.webview);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("http://192.168.4.1:8000/");
+
+        client = new Client("192.168.4.1",4957);
+//        Log.d(TAG, "Client Created");
+        client.start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(bundle!=null){
+            client.setToReturn("a");
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            String longinstr = (String)bundle.get("AUTO");
+            client.setToReturn(longinstr);
+//            client.setToReturn("end");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        client.setToReturn("m");
+
 
         //ImageButtons are all set
         f = (ImageButton)findViewById(R.id.forward);
@@ -87,92 +79,74 @@ public class ManualOverride extends AppCompatActivity {
         stop = (Button)findViewById(R.id.stop);
         dc = (Button)findViewById(R.id.dc);
         off = (Button)findViewById(R.id.off);
+        builder = new AlertDialog.Builder(this);
 
-
-        builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setMessage("ARE YOU SURE YOU WANT TO POWER OFF????");
-        builder.setPositiveButton("yes, fuck Brendan", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                Log.d("Command : ", "DISCONNECT  BUTTON PRESSED");
-//                client.setToReturn("Off");
-            }
-        });
-        builder.setNegativeButton("No.", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-                makeToast("Cancelling");
-            }
-        });
-
-        final AlertDialog alertDialog = builder.create();
         //forward Held
         f.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    //send forward as long as this is held
-                    client.setToReturn("f");
-                    Log.d("SENDING ", "FORWARD");
-                    return true;
-                }else if(event.getAction() == MotionEvent.ACTION_UP) {
-                    client.setToReturn("end");
-                    return false;
-                }
+            if(event.getAction() == MotionEvent.ACTION_DOWN){
+                //send forward as long as this is held
+                client.setToReturn("f");
+//                    Log.d("SENDING ", "FORWARD");
+                return true;
+            }else if(event.getAction() == MotionEvent.ACTION_UP) {
+                client.setToReturn("end");
                 return false;
+            }
+            return false;
             }
         });
 
         b.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    //send forward as long as this is held
-                    client.setToReturn("b");
-                    Log.d("SENDING ", "BACKWARD");
-                    return true;
-                }else if(event.getAction() == MotionEvent.ACTION_UP){
-                    client.setToReturn("end");
-                    return false;
-                }
+            if(event.getAction() == MotionEvent.ACTION_DOWN){
+                //send forward as long as this is held
+                client.setToReturn("b");
+//                    Log.d("SENDING ", "BACKWARD");
+                return true;
+            }else if(event.getAction() == MotionEvent.ACTION_UP){
+                client.setToReturn("end");
                 return false;
+            }
+            return false;
             }
         });
         l.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    //send forward as long as this is held
-                    client.setToReturn("l");
-                    return true;
-                }else if(event.getAction() == MotionEvent.ACTION_UP){
-                    client.setToReturn("end");
-                    return false;
-                }
+            if(event.getAction() == MotionEvent.ACTION_DOWN){
+                //send forward as long as this is held
+                client.setToReturn("l");
+                return true;
+            }else if(event.getAction() == MotionEvent.ACTION_UP){
+                client.setToReturn("end");
                 return false;
+            }
+            return false;
             }
         });
         r.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event){
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    //send forward as long as this is held
-                    client.setToReturn("r");
-                    return true;
-                }else if(event.getAction() == MotionEvent.ACTION_UP){
-                    client.setToReturn("end");
-                    return false;
-                }
+            if(event.getAction() == MotionEvent.ACTION_DOWN){
+                //send forward as long as this is held
+                client.setToReturn("r");
+                return true;
+            }else if(event.getAction() == MotionEvent.ACTION_UP){
+                client.setToReturn("end");
                 return false;
+            }
+            return false;
             }
         });
         //stop
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Command : ", "STOP BUTTON PRESSED");
-                client.setToReturn("stop");
+//                Log.d("Command : ", "STOP BUTTON PRESSED");
+            client.setToReturn("stop");
             }
         });
 
@@ -180,8 +154,8 @@ public class ManualOverride extends AppCompatActivity {
         dc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Command : ", "DISCONNECT  BUTTON PRESSED");
-                client.setToReturn("Disconnect");
+//                Log.d("Command : ", "DISCONNECT  BUTTON PRESSED");
+            client.setToReturn("Disconnect");
             }
         });
 
@@ -189,14 +163,33 @@ public class ManualOverride extends AppCompatActivity {
         off.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.show();
+            //Setting message manually and performing action on button click
+            builder.setMessage("Do you want to Shutdown?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //  Action for 'YES' Button
+                            client.setToReturn("Off");
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //  Action for 'NO' Button
+                            dialog.cancel();
+                        }
+                    });
+            //Creating dialog box
+            AlertDialog alert = builder.create();
+            //Setting the title manually
+            alert.setTitle("ALERT");
+            alert.show();
             }
         });
     }
 
     @Override
     public void onBackPressed(){
-        Log.d("BACK BUTTON PRESSED ", "DISCONNECTING");
+//        Log.d("BACK BUTTON PRESSED ", "DISCONNECTING");
         client.setToReturn("Disconnect");
         Intent intent = new Intent(ManualOverride.this, SecondaryActivity.class);
         startActivity(intent);

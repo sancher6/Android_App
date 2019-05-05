@@ -44,23 +44,15 @@ public class Calibrate extends AppCompatActivity {
         time = (EditText)findViewById(R.id.time);
 
         //Initialize the new Client for Manual Override
-        Log.d(TAG, "TRYING");
-
-        //create client variables
-//        try {
-//            clientSocket = new Socket("192.168.4.1",4957);
-//            out = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream(),"UTF-8"), true);
-//            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(),"UTF-8"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-        Log.d(TAG , "SUCCESSFUL");
-//        client = new Client(clientSocket, out, in);
         client = new Client("192.168.4.1",4957);
         Log.d(TAG, "Client Created");
-        client.setToReturn("Connect\n");
         client.start();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        client.setToReturn("m");
         //initialize database
         myDB = new DatabaseHelper(this);
 
@@ -80,17 +72,17 @@ public class Calibrate extends AppCompatActivity {
                 if(time.getText().toString().length() < 1){
                     makeToast("Must enter a valid Time!!");
                 }else{
-                    client.setToReturn(opt_spinner.getSelectedItem().toString() + " " + time.getText().toString());
+//                    client.setToReturn(opt_spinner.getSelectedItem().toString() + " " + time.getText().toString());
                 }
             }
         });
 
-        stop.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                client.setToReturn("stop");
-            }
-        });
+//        stop.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                client.setToReturn("stop");
+//            }
+//        });
 
         save.setOnClickListener(new View.OnClickListener(){
             @Override
