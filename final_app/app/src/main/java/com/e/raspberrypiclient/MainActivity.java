@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private Button Connect;
     private EditText ip,port;
     private String TAG = "MAIN";
+    private String ipaddress;
+    private int portnum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,17 @@ public class MainActivity extends AppCompatActivity {
         Connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Connect : ", "CONNECT BUTTON PRESSED");
+//                Log.d("Connect : ", "CONNECT BUTTON PRESSED");               }
+                String check = ip.getText().toString();
+                String check2 = port.getText().toString();
+                if(!check.isEmpty() && !check2.isEmpty()){
+                    ipaddress = check;
+                    portnum = Integer.parseInt(check2);
+                }else {
+                    ipaddress = "192.168.4.1";
+                    portnum = 4957;
+                }
+                makeToast("Connecting");
                 Intent intent = new Intent(MainActivity.this, SecondaryActivity.class);
                 intent.putExtra("ip",ip.getText().toString());
                 intent.putExtra("port",port.getText().toString());

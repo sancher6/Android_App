@@ -28,8 +28,7 @@
         android:layout_alignLeft="@+id/tcnj"
         android:layout_marginTop="156dp"
         android:hint="@string/port"
-        android:autofillHints="@string/ip"
-        android:inputType="text" />
+        android:inputType="numberSigned" />
 
     <EditText
         android:id="@+id/ip"
@@ -40,7 +39,6 @@
         android:layout_alignLeft="@+id/port"
         android:layout_marginTop="90dp"
         android:hint="@string/ip"
-        android:autofillHints="@string/ip"
         android:inputType="text" />
 
     <Button

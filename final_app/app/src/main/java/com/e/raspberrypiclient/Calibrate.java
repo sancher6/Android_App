@@ -43,16 +43,6 @@ public class Calibrate extends AppCompatActivity {
         opt_spinner = (Spinner)findViewById(R.id.options);
         time = (EditText)findViewById(R.id.time);
 
-        //Initialize the new Client for Manual Override
-        client = new Client("192.168.4.1",4957);
-        Log.d(TAG, "Client Created");
-        client.start();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        client.setToReturn("m");
         //initialize database
         myDB = new DatabaseHelper(this);
 

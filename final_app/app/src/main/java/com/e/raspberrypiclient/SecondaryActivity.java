@@ -34,7 +34,7 @@ public class SecondaryActivity extends AppCompatActivity {
         remote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Remote Control : ", "REMOTE CONTROL BUTTON PRESSED");
+//                Log.d("Remote Control : ", "REMOTE CONTROL BUTTON PRESSED");
                 Intent intent = new Intent(SecondaryActivity.this, ManualOverride.class);
                 startActivity(intent);
             }
@@ -43,7 +43,7 @@ public class SecondaryActivity extends AppCompatActivity {
         calibrate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Calibrate : ", "CALIBRATE BUTTON PRESSED");
+//                Log.d("Calibrate : ", "CALIBRATE BUTTON PRESSED");
                 Intent intent = new Intent(SecondaryActivity.this, Calibrate.class);
                 startActivity(intent);
             }
@@ -52,7 +52,7 @@ public class SecondaryActivity extends AppCompatActivity {
         set_instructions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(" : ", "SET INSTRUCTIONS BUTTON PRESSED");
+//                Log.d(" : ", "SET INSTRUCTIONS BUTTON PRESSED");
                 Intent intent = new Intent(SecondaryActivity.this, SetInstructions.class);
                 startActivity(intent);
             }
@@ -61,7 +61,7 @@ public class SecondaryActivity extends AppCompatActivity {
         previous_runs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(" : ", "PREVIOUS RUNS BUTTON PRESSED");
+//                Log.d(" : ", "PREVIOUS RUNS BUTTON PRESSED");
                 Intent intent = new Intent(SecondaryActivity.this, PreviousRuns.class);
                 startActivity(intent);
             }
@@ -70,7 +70,7 @@ public class SecondaryActivity extends AppCompatActivity {
         dc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(" : ", "DISCONNECT BUTTON PRESSED");
+//                Log.d(" : ", "DISCONNECT BUTTON PRESSED");
                 Intent intent = new Intent(SecondaryActivity.this, MainActivity.class);
                 makeToast("Disconnecting ...");
                 startActivity(intent);
@@ -80,7 +80,7 @@ public class SecondaryActivity extends AppCompatActivity {
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(" : ", "MORE BUTTON PRESSED");
+////                Log.d(" : ", "MORE BUTTON PRESSED");
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://engprojects.tcnj.edu/rccar19/the-team/"));
                 startActivity(browserIntent);
             }

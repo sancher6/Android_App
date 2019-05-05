@@ -16,6 +16,9 @@
     <string name="disconnect">DISCONNECT</string>
     <string name="more">MORE!!</string>
 
+    <string name="ip_num">192.168.4.1</string>
+    <string name="port_num">4957</string>
+
     <string name="start">START</string>
     <string name="stop">STOP</string>
     <string name="forward">F</string>

@@ -191,7 +191,6 @@ public class ManualOverride extends AppCompatActivity {
     public void onBackPressed(){
 //        Log.d("BACK BUTTON PRESSED ", "DISCONNECTING");
         client.setToReturn("Disconnect");
-        Intent intent = new Intent(ManualOverride.this, SecondaryActivity.class);
-        startActivity(intent);
+        finish();
     }
 }
