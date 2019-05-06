@@ -9,8 +9,6 @@ import java.net.Socket;
 
 import android.util.Log;
 
-import static com.e.raspberrypiclient.GlobalApplication.makeToast;
-
 public class Client extends Thread{
     private String ip;
     private int port;
@@ -51,7 +49,8 @@ public class Client extends Thread{
             if((connect && toReturn.equalsIgnoreCase("Connect"))){
                 //nothing
             }else{
-                if(getToReturn().equalsIgnoreCase(previous)) {
+                if(toReturn.equalsIgnoreCase(previous)) {
+                    //nothing
                 }else{
                     previous = toReturn;
                     out.println(getToReturn());

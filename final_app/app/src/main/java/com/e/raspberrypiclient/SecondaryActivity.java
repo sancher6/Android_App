@@ -17,6 +17,7 @@ public class SecondaryActivity extends AppCompatActivity {
     private Button dc;
     private Button more;
     private Button calibrate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

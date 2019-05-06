@@ -156,6 +156,7 @@ public class ManualOverride extends AppCompatActivity {
             public void onClick(View v) {
 //                Log.d("Command : ", "DISCONNECT  BUTTON PRESSED");
             client.setToReturn("Disconnect");
+            finish();
             }
         });
 
@@ -191,6 +192,13 @@ public class ManualOverride extends AppCompatActivity {
     public void onBackPressed(){
 //        Log.d("BACK BUTTON PRESSED ", "DISCONNECTING");
         client.setToReturn("Disconnect");
+        finish();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        client.disconnect();
         finish();
     }
 }
