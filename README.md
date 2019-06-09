@@ -9,8 +9,11 @@ The project is made up of 3 subsystems: The Android Phone, The Arduino Board, an
 * Once the Gradle has finished building, you may run the project to a local emulator or to a connected device. 
 * Voila, the Mobile end of the Autonomous Car project has been completed! 
 ### Raspberry Pi Setup
-
+*View Technical Report* 
 ### Arduino Setup
-
+*View Technical Report* 
 ## Finishing Touches
 The project is not fully functional as of 6/9/2019, but is very close to completion! All that remains is the completion of the obstacle avoidance algorithm and the control system algorithm to allow for straight driving. All information on the project can be found within the Resources folder under *TechnicalReport.pdf*. 
+
+## Get in Touch!
+Team Website: 
