@@ -16,4 +16,4 @@ The project is made up of 3 subsystems: The Android Phone, The Arduino Board, an
 The project is not fully functional as of 6/9/2019, but is very close to completion! All that remains is the completion of the obstacle avoidance algorithm and the control system algorithm to allow for straight driving. All information on the project can be found within the Resources folder under *TechnicalReport.pdf*. 
 
 ## Get in Touch!
-Team Website: 
+Team Website: (https://engprojects.tcnj.edu/rccar19/the-team/)
