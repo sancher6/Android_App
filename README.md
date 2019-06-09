@@ -1,4 +1,4 @@
-#Autonomous Car with Obstacle Avoidance 
+# Autonomous Car with Obstacle Avoidance 
 ## Introduction:
 Senior Project Android Studio project for an Android mobile application to interface with a remote autonomous car through a Raspberry Pi hub of communication. 
 ## Get Started: 
